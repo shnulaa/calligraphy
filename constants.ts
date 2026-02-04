@@ -16,9 +16,6 @@ export const ARTIFACTS: Artifact[] = [
       cn: '晋 (303–361)'
     },
     // Reversed order: Leftmost slice (End of scroll) -> Rightmost slice (Start of scroll)
-    // Files 53-57 are the main calligraphy, 58-66 are colophons (tail).
-    // In R-to-L reading, 53 is start, 66 is end.
-    // In DOM (L-to-R), we want [66, 65, ... 53] so 66 is on left, 53 on right.
     images: [
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010066.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010065.jpg',
@@ -61,24 +58,23 @@ export const ARTIFACTS: Artifact[] = [
         id: 'seal-qianlong',
         name: { en: 'Qianlong Imperial Seal', cn: '乾隆御览之宝' },
         description: { en: 'Imperial seal of Emperor Qianlong.', cn: '乾隆皇帝鉴赏时留下的御印。' },
-        x: 93,
+        x: 96,
         y: 20,
-        size: 4
+        size: 3
       }
     ],
-    // Coordinates adjusted for new longer width (Main content is now at right ~35% of scroll)
     hotspots: [
       {
         id: 'h-shen',
-        x: 95,
+        x: 96.5,
         y: 35,
         title: { en: 'Divine (Shen)', cn: '“神”' },
-        content: { en: 'The massive "Spirit" (Shen) character written by Emperor Qianlong, praising the work as divine.', cn: '乾隆皇帝亲笔题写的巨大“神”字，意指此帖神乎其技，是内府收藏的顶级珍宝。' },
+        content: { en: 'The massive "Spirit" (Shen) character written by Emperor Qianlong, praising the work as divine.', cn: '引首处有乾隆皇帝亲笔题写的巨大“神”字，意指此帖神乎其技，是内府收藏的顶级珍宝。' },
         type: 'seal'
       },
       {
         id: 'h-snow',
-        x: 88,
+        x: 90,
         y: 45,
         title: { en: 'The Character "Snow" (雪)', cn: '“雪”字赏析' },
         content: { en: 'Notice the rounded, fluid stroke.', cn: '注意“雪”字下半部分的圆转，笔法圆润流畅，仿佛展现了瑞雪初融的意境。' },
@@ -87,25 +83,25 @@ export const ARTIFACTS: Artifact[] = [
       {
         id: 'h-greeting',
         x: 85,
-        y: 45,
+        y: 48,
         title: { en: 'Xi Zhi Greetings', cn: '羲之顿首' },
-        content: { en: 'Standard letter ending, but written with exquisite rhythm.', cn: '“羲之顿首”是当时书信的常用结语。这四个字写得从容不迫，方圆兼备，体现了“中和”之美。' },
+        content: { en: 'Standard letter ending, but written with exquisite rhythm.', cn: '“羲之顿首”是当时书信的常用结语。这四个字写得从容不迫，方圆兼备，位于正文的最左侧。' },
         type: 'history'
       },
       {
         id: 'h-zhao',
-        x: 55,
+        x: 65,
         y: 40,
         title: { en: 'Zhao Mengfu Colophon', cn: '赵孟頫题跋' },
-        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '卷后有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。赵孟頫极力推崇王羲之，此跋本身也是书法珍品。' },
+        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '紧接正文之后，有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。赵孟頫极力推崇王羲之，此跋本身也是书法珍品。' },
         type: 'history'
       },
       {
         id: 'h-illustration',
-        x: 15,
+        x: 12,
         y: 50,
         title: { en: 'Imperial Illustration', cn: '御制绘图' },
-        content: { en: 'Classic Chinese landscape painting accompanying the calligraphy.', cn: '卷尾附有宫廷画师绘制的雪景山水，呼应“快雪时晴”的主题，画风清丽，与书法相得益彰。' },
+        content: { en: 'Classic Chinese landscape painting accompanying the calligraphy.', cn: '卷尾（最左侧）附有宫廷画师绘制的雪景山水，呼应“快雪时晴”的主题，画风清丽，与书法相得益彰。' },
         type: 'history'
       }
     ]
@@ -124,7 +120,6 @@ export const ARTIFACTS: Artifact[] = [
       en: 'Song Dynasty',
       cn: '宋'
     },
-    // Reversed order: Leftmost slice -> Rightmost slice
     images: [
       'https://theme.npm.edu.tw/selection/att/collection/04001005/17010146.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001005/17010145.jpg',
@@ -167,52 +162,59 @@ export const ARTIFACTS: Artifact[] = [
         id: 'seal-huangzhou',
         name: { en: 'Huangzhou Exile Seal', cn: '黄州团练副使' },
         description: { en: 'A seal indicating his position during exile.', cn: '苏轼贬谪黄州时期的官职印信，见证了这段艰难岁月。' },
-        x: 92,
+        x: 94,
         y: 20,
-        size: 5
+        size: 3
       }
     ],
-    // Coordinates adjusted for Right-to-Left reading (Start is high X, End is low X)
     hotspots: [
       {
         id: 'hs-intro',
-        x: 88,
+        x: 92,
         y: 35,
         title: { en: 'The Opening', cn: '自我宽慰' },
-        content: { en: 'The script begins with "Self-written poem", relatively calm and balanced, showing his attempt to stay composed.', cn: '起首“自我来黄州，已过三寒食”，字迹尚显平稳，似在叙家常，表现了诗人初时的自我宽慰。' },
+        content: { en: 'The script begins with "Self-written poem", relatively calm and balanced.', cn: '起首“自我来黄州，已过三寒食”，字迹尚显平稳，似在叙家常，表现了诗人初时的自我宽慰。' },
         type: 'history'
       },
       {
         id: 'hs-rain',
-        x: 75,
+        x: 82,
         y: 45,
         title: { en: 'Unending Rain', cn: '雨势连绵' },
-        content: { en: 'The characters become elongated and slanted, mimicking the falling rain mentioned in the poem.', cn: '“年年欲惜春，春去不容惜”。此处笔势开始连绵，字形拉长，仿佛那令心情压抑的连绵春雨。' },
+        content: { en: 'The characters become elongated and slanted.', cn: '“年年欲惜春，春去不容惜”。此处笔势开始连绵，字形拉长，仿佛那令心情压抑的连绵春雨。' },
         type: 'technique'
       },
       {
         id: 'hs-flower',
-        x: 60,
+        x: 76,
         y: 40,
         title: { en: 'Flower in Mud', cn: '卧闻海棠花' },
-        content: { en: 'The ink gets heavier and darker. The strokes are thick, symbolizing the heavy heart.', cn: '“卧闻海棠花，泥污燕支雪”。笔触凝重，墨色浓黑，写出了花落泥涂的无奈，也是自喻身世。' },
+        content: { en: 'The ink gets heavier and darker.', cn: '“卧闻海棠花，泥污燕支雪”。笔触凝重，墨色浓黑，写出了花落泥涂的无奈，也是自喻身世。' },
         type: 'history'
       },
       {
         id: 'hs-change',
-        x: 45,
+        x: 72,
         y: 50,
         title: { en: 'Emotional Break', cn: '情绪转折' },
-        content: { en: 'The spacing becomes irregular, characters vary wildly in size.', cn: '第二首诗开始，情绪转激。字距行距变得不规则，显示出诗人内心的动荡。' },
+        content: { en: 'The spacing becomes irregular.', cn: '第二首诗开始，情绪转激。字距行距变得不规则，显示出诗人内心的动荡。' },
         type: 'technique'
       },
       {
         id: 'hs-ash',
-        x: 25,
+        x: 65,
         y: 55,
         title: { en: 'Dead Ashes', cn: '死灰吹不起' },
-        content: { en: 'The climax of despair. Dry brush strokes (Feibai) and sharp angles.', cn: '全卷高潮。“死灰吹不起”五字，枯笔飞白，笔势险峻，如干柴烈火，将心如死灰的绝望刻画得入木三分。' },
+        content: { en: 'The climax of despair. Dry brush strokes (Feibai).', cn: '全卷高潮。“死灰吹不起”五字，枯笔飞白，笔势险峻，如干柴烈火，将心如死灰的绝望刻画得入木三分。' },
         type: 'technique'
+      },
+      {
+        id: 'hs-huang',
+        x: 50,
+        y: 30,
+        title: { en: 'Huang Tingjian Colophon', cn: '黄庭坚题跋' },
+        content: { en: 'Colophon by Huang Tingjian, another great master.', cn: '苏轼书法的“知音”黄庭坚在卷后题跋，盛赞此帖“试使东坡复为之，未必及此”，认为这是不可复制的杰作。' },
+        type: 'history'
       }
     ]
   },
@@ -230,7 +232,6 @@ export const ARTIFACTS: Artifact[] = [
       en: 'Tang Dynasty',
       cn: '唐'
     },
-    // Reversed order: Leftmost slice -> Rightmost slice
     images: [
       'https://theme.npm.edu.tw/selection/att/collection/04001003/17010207.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001003/17010102.jpg',
@@ -266,11 +267,10 @@ export const ARTIFACTS: Artifact[] = [
       cn: "书法由行变草，墨色由润变枯。情绪的宣泄与笔墨的运用达到了完美的统一，是“书为心画”的最高境界。"
     },
     seals: [],
-    // Coordinates adjusted for Right-to-Left reading (Start is high X, End is low X)
     hotspots: [
        {
         id: 'jz-start',
-        x: 95,
+        x: 92,
         y: 40,
         title: { en: 'Formal Beginning', cn: '强作镇定' },
         content: { en: 'The text starts with a formal date and title, using heavy, calm ink strokes.', cn: '“维乾元元年”，起首标注日期，笔墨尚显沉稳，颜真卿试图压抑内心的悲痛。' },
@@ -286,18 +286,18 @@ export const ARTIFACTS: Artifact[] = [
       },
       {
         id: 'jz-speed',
-        x: 40,
+        x: 45,
         y: 45,
         title: { en: 'Acceleration', cn: '笔势加快' },
-        content: { en: 'The script transitions from Running to Cursive. The characters become connected.', cn: '随着悲情涌动，行笔速度越来越快，字与字之间牵丝连带，由于泪眼模糊，字形也开始歪斜。' },
+        content: { en: 'The script transitions from Running to Cursive.', cn: '随着悲情涌动，行笔速度越来越快，字与字之间牵丝连带，由于泪眼模糊，字形也开始歪斜。' },
         type: 'technique'
       },
       {
         id: 'jz-dry',
-        x: 10,
+        x: 22,
         y: 45,
         title: { en: 'Dry Cry', cn: '呜呼哀哉' },
-        content: { en: 'The final exclamation. The ink is completely dry, the brush splits. A silent scream.', cn: '结尾“呜呼哀哉”，墨已枯竭，笔锋散乱。这不仅仅是书写，而是作者发自灵魂深处的恸哭。' },
+        content: { en: 'The final exclamation. The ink is completely dry, the brush splits.', cn: '结尾“呜呼哀哉”，墨已枯竭，笔锋散乱。这不仅仅是书写，而是作者发自灵魂深处的恸哭。' },
         type: 'technique'
       }
     ]

@@ -19,7 +19,38 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
   const [mode, setMode] = useState<'view' | 'trace' | 'microscope'>('view');
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
 
-  // Native wheel event listener to prevent page scroll
+  // Helper: Handle Zoom Logic (Zoom to Point)
+  const handleZoom = (targetScale: number, clientX?: number, clientY?: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // 1. Clamp scale
+    const newScale = Math.min(Math.max(targetScale, MIN_ZOOM), MAX_ZOOM);
+    if (Math.abs(newScale - scale) < 0.001) return;
+
+    // 2. Calculate scaling ratio
+    const ratio = newScale / scale;
+
+    // 3. Get container metrics
+    const rect = container.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+
+    // 4. Determine focal point (mouse position or center) relative to container center
+    // If clientX is provided, map it to offset from center. Otherwise 0 (center).
+    const focalX = clientX !== undefined ? clientX - rect.left - cx : 0;
+    const focalY = clientY !== undefined ? clientY - rect.top - cy : 0;
+
+    // 5. Calculate new position to keep focal point stationary
+    // Formula: newPos = focal - (focal - oldPos) * ratio
+    const newX = focalX - (focalX - position.x) * ratio;
+    const newY = focalY - (focalY - position.y) * ratio;
+
+    setScale(newScale);
+    setPosition({ x: newX, y: newY });
+  };
+
+  // Native wheel event listener
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -28,17 +59,18 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
       e.preventDefault();
       if (mode === 'trace') return;
 
-      const scaleAdjustment = e.deltaY * -0.001;
-      setScale(prev => Math.min(Math.max(prev + scaleAdjustment, MIN_ZOOM), MAX_ZOOM));
+      // Multiplicative zoom for smoother feel
+      // deltaY is usually ~100. 100 * -0.001 = -0.1. 1 - 0.1 = 0.9.
+      const zoomFactor = 1 - e.deltaY * 0.001;
+      handleZoom(scale * zoomFactor, e.clientX, e.clientY);
     };
 
-    // { passive: false } is required to use preventDefault() on wheel events
     container.addEventListener('wheel', onWheel, { passive: false });
 
     return () => {
       container.removeEventListener('wheel', onWheel);
     };
-  }, [mode]);
+  }, [mode, scale, position]); // Add dependencies to ensure state is fresh
 
   // Handle Pan (Mouse)
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -83,7 +115,6 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
     setPosition({ x: 0, y: 0 });
   };
 
-  // Microscope Effect style
   const microscopeStyle = mode === 'microscope' ? {
     filter: 'contrast(1.2) brightness(1.1) sepia(0.2)',
     cursor: 'zoom-in',
@@ -92,7 +123,7 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
   return (
     <div className="relative w-full h-full bg-paper overflow-hidden select-none border-t border-b border-stone-300 shadow-inner group touch-none">
       
-      {/* Texture Overlay (Paper Grain) */}
+      {/* Texture Overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-30 z-10 bg-rice-paper mix-blend-multiply"></div>
 
       {/* Toolbar */}
@@ -106,14 +137,14 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
             <Eye size={20} />
           </button>
           <button 
-             onClick={() => { setMode('trace'); setScale(1.5); }} 
+             onClick={() => { setMode('trace'); setScale(1.5); setPosition({x:0, y:0}); }} 
              className={`p-2 rounded transition-colors ${mode === 'trace' ? 'bg-ink text-paper' : 'hover:bg-stone-100 text-ink'}`}
              title={lang === 'cn' ? "临摹模式" : "Tracing Mode"}
           >
             <PenTool size={20} />
           </button>
           <button 
-             onClick={() => { setMode('microscope'); setScale(MAX_ZOOM / 2); }} 
+             onClick={() => { setMode('microscope'); handleZoom(4); }} 
              className={`p-2 rounded transition-colors ${mode === 'microscope' ? 'bg-ink text-paper' : 'hover:bg-stone-100 text-ink'}`}
              title={lang === 'cn' ? "微观赏析" : "Microscope View"}
           >
@@ -122,8 +153,8 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
         </div>
 
         <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg border border-stone-200 flex flex-col gap-2">
-          <button onClick={() => setScale(s => Math.min(s + 0.5, MAX_ZOOM))} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomIn size={20}/></button>
-          <button onClick={() => setScale(s => Math.max(s - 0.5, MIN_ZOOM))} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomOut size={20}/></button>
+          <button onClick={() => handleZoom(scale + 0.5)} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomIn size={20}/></button>
+          <button onClick={() => handleZoom(scale - 0.5)} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomOut size={20}/></button>
           <button onClick={resetView} className="p-2 hover:bg-stone-100 rounded text-ink text-xs font-serif">1:1</button>
         </div>
       </div>
@@ -145,7 +176,7 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
           style={{ 
             transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
             transformOrigin: 'center',
-            transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+            transition: isDragging ? 'none' : 'transform 0.1s ease-out', // Faster transition for zoom
             ...microscopeStyle
           }}
           className="relative shadow-2xl flex flex-row shrink-0"
@@ -179,8 +210,8 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
               
               {/* Tooltip */}
               <div 
-                className={`absolute top-8 left-1/2 -translate-x-1/2 w-64 bg-ink/90 backdrop-blur-sm text-paper p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 ${
-                  activeHotspot === hs.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+                className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-64 bg-ink/90 backdrop-blur-sm text-paper p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 z-50 ${
+                  activeHotspot === hs.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                 }`}
               >
                 <h4 className="font-serif font-bold text-cinnabar mb-1">{hs.title[lang]}</h4>
