@@ -29,6 +29,8 @@ export interface Artifact {
   images: string[];
   dimensions: { width: number; height: number };
   description: LocalizedString; // Short intro
+  artistBio: LocalizedString; // New: Artist Biography
+  artistAchievement: LocalizedString; // New: Artist Lifetime Achievement
   background: LocalizedString; // Detailed historical background
   significance: LocalizedString; // detailed artistic significance
   seals: Seal[];
