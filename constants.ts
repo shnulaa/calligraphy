@@ -15,15 +15,27 @@ export const ARTIFACTS: Artifact[] = [
       en: 'Eastern Jin Dynasty (303–361)',
       cn: '晋 (303–361)'
     },
-    // Reversed order: Leftmost slice -> Rightmost slice
+    // Reversed order: Leftmost slice (End of scroll) -> Rightmost slice (Start of scroll)
+    // Files 53-57 are the main calligraphy, 58-66 are colophons (tail).
+    // In R-to-L reading, 53 is start, 66 is end.
+    // In DOM (L-to-R), we want [66, 65, ... 53] so 66 is on left, 53 on right.
     images: [
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010066.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010065.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010064.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010063.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010062.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010061.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010060.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010059.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010058.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010057.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010056.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010055.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010054.jpg',
       'https://theme.npm.edu.tw/selection/att/collection/04001001/17010053.jpg'
     ],
-    dimensions: { width: 5000, height: 1000 },
+    dimensions: { width: 14000, height: 1000 },
     description: {
       en: "Regarded as the foremost of the 'Three Rarities' by Emperor Qianlong, this letter was written by the Sage of Calligraphy, Wang Xizhi. It expresses his greeting to a friend after a snowfall.",
       cn: "此帖被乾隆皇帝誉为“三希”之首，是“书圣”王羲之在大雪初晴时写给友人的一封信札。全帖笔法圆劲古雅，以此表达对友人的问候及对雪后美景的赞赏。"
@@ -49,16 +61,16 @@ export const ARTIFACTS: Artifact[] = [
         id: 'seal-qianlong',
         name: { en: 'Qianlong Imperial Seal', cn: '乾隆御览之宝' },
         description: { en: 'Imperial seal of Emperor Qianlong.', cn: '乾隆皇帝鉴赏时留下的御印。' },
-        x: 50,
+        x: 93,
         y: 20,
-        size: 8
+        size: 4
       }
     ],
-    // Coordinates adjusted (Title/Start is Right/High X)
+    // Coordinates adjusted for new longer width (Main content is now at right ~35% of scroll)
     hotspots: [
       {
         id: 'h-shen',
-        x: 75,
+        x: 95,
         y: 35,
         title: { en: 'Divine (Shen)', cn: '“神”' },
         content: { en: 'The massive "Spirit" (Shen) character written by Emperor Qianlong, praising the work as divine.', cn: '乾隆皇帝亲笔题写的巨大“神”字，意指此帖神乎其技，是内府收藏的顶级珍宝。' },
@@ -66,7 +78,7 @@ export const ARTIFACTS: Artifact[] = [
       },
       {
         id: 'h-snow',
-        x: 52,
+        x: 88,
         y: 45,
         title: { en: 'The Character "Snow" (雪)', cn: '“雪”字赏析' },
         content: { en: 'Notice the rounded, fluid stroke.', cn: '注意“雪”字下半部分的圆转，笔法圆润流畅，仿佛展现了瑞雪初融的意境。' },
@@ -74,18 +86,26 @@ export const ARTIFACTS: Artifact[] = [
       },
       {
         id: 'h-greeting',
-        x: 45,
+        x: 85,
         y: 45,
         title: { en: 'Xi Zhi Greetings', cn: '羲之顿首' },
         content: { en: 'Standard letter ending, but written with exquisite rhythm.', cn: '“羲之顿首”是当时书信的常用结语。这四个字写得从容不迫，方圆兼备，体现了“中和”之美。' },
         type: 'history'
       },
       {
-        id: 'h-mount',
-        x: 10,
-        y: 50,
+        id: 'h-zhao',
+        x: 55,
+        y: 40,
         title: { en: 'Zhao Mengfu Colophon', cn: '赵孟頫题跋' },
-        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '卷后有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。' },
+        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '卷后有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。赵孟頫极力推崇王羲之，此跋本身也是书法珍品。' },
+        type: 'history'
+      },
+      {
+        id: 'h-illustration',
+        x: 15,
+        y: 50,
+        title: { en: 'Imperial Illustration', cn: '御制绘图' },
+        content: { en: 'Classic Chinese landscape painting accompanying the calligraphy.', cn: '卷尾附有宫廷画师绘制的雪景山水，呼应“快雪时晴”的主题，画风清丽，与书法相得益彰。' },
         type: 'history'
       }
     ]
