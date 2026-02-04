@@ -2,6 +2,95 @@ import { Artifact } from './types';
 
 export const ARTIFACTS: Artifact[] = [
   {
+    id: 'kuaixue',
+    title: {
+      en: 'Timely Clearing After Snowfall',
+      cn: '快雪时晴帖'
+    },
+    artist: {
+      en: 'Wang Xizhi',
+      cn: '王羲之'
+    },
+    dynasty: {
+      en: 'Eastern Jin Dynasty (303–361)',
+      cn: '晋 (303–361)'
+    },
+    // Reversed order: Leftmost slice -> Rightmost slice
+    images: [
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010057.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010056.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010055.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010054.jpg',
+      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010053.jpg'
+    ],
+    dimensions: { width: 5000, height: 1000 },
+    description: {
+      en: "Regarded as the foremost of the 'Three Rarities' by Emperor Qianlong, this letter was written by the Sage of Calligraphy, Wang Xizhi. It expresses his greeting to a friend after a snowfall.",
+      cn: "此帖被乾隆皇帝誉为“三希”之首，是“书圣”王羲之在大雪初晴时写给友人的一封信札。全帖笔法圆劲古雅，以此表达对友人的问候及对雪后美景的赞赏。"
+    },
+    artistBio: {
+      en: "Wang Xizhi (303–361), courtesy name Yishao, was a Chinese calligrapher, politician, general and writer during the Jin Dynasty. Born in Linyi, Langya, he served as the General of the Right Army, earning the moniker 'Wang Youjun'.",
+      cn: "王羲之（303–361），字逸少，琅琊临沂人，东晋时期著名书法家。曾任右军将军，世称“王右军”。他出身名门望族，不仅在书法上登峰造极，在政治和文学上也颇有建树。"
+    },
+    artistAchievement: {
+      en: "Revered as the 'Sage of Calligraphy', he revolutionized the art form by mastering all scripts and transforming the rigid styles of the Han and Wei dynasties into the fluid, expressive Running and Cursive scripts. His 'Preface to the Poems Composed at the Orchid Pavilion' is considered the greatest calligraphy work in history.",
+      cn: "被尊为“书圣”。他兼善隶、草、楷、行各体，精研体势，广采众长，备精诸体，冶于一炉，摆脱了汉魏笔风，自成一家。其代表作《兰亭序》被誉为“天下第一行书”，对中国书法产生了深远的影响。"
+    },
+    background: {
+      en: "Consisting of only 28 characters, this masterpiece is a prime example of Running Script. It was treasured in the 'Hall of Three Rarities' in the Forbidden City.",
+      cn: "《快雪时晴帖》全篇仅28字，被誉为“二十八骊珠”。清代乾隆皇帝将其与王献之《中秋帖》、王杰《伯远帖》一同收藏于“三希堂”中，并视为至宝。"
+    },
+    significance: {
+      en: "It represents the pinnacle of Semi-Cursive Script, embodying the 'Middle Way' philosophy—neither too fast nor too slow, displaying a perfect balance of square and round strokes.",
+      cn: "此帖代表了行书艺术的极高成就。笔法圆劲古雅，体势平和，展现了王羲之“不激不厉，而风规自远”的中和之美。"
+    },
+    seals: [
+      {
+        id: 'seal-qianlong',
+        name: { en: 'Qianlong Imperial Seal', cn: '乾隆御览之宝' },
+        description: { en: 'Imperial seal of Emperor Qianlong.', cn: '乾隆皇帝鉴赏时留下的御印。' },
+        x: 50,
+        y: 20,
+        size: 8
+      }
+    ],
+    // Coordinates adjusted (Title/Start is Right/High X)
+    hotspots: [
+      {
+        id: 'h-shen',
+        x: 75,
+        y: 35,
+        title: { en: 'Divine (Shen)', cn: '“神”' },
+        content: { en: 'The massive "Spirit" (Shen) character written by Emperor Qianlong, praising the work as divine.', cn: '乾隆皇帝亲笔题写的巨大“神”字，意指此帖神乎其技，是内府收藏的顶级珍宝。' },
+        type: 'seal'
+      },
+      {
+        id: 'h-snow',
+        x: 52,
+        y: 45,
+        title: { en: 'The Character "Snow" (雪)', cn: '“雪”字赏析' },
+        content: { en: 'Notice the rounded, fluid stroke.', cn: '注意“雪”字下半部分的圆转，笔法圆润流畅，仿佛展现了瑞雪初融的意境。' },
+        type: 'technique'
+      },
+      {
+        id: 'h-greeting',
+        x: 45,
+        y: 45,
+        title: { en: 'Xi Zhi Greetings', cn: '羲之顿首' },
+        content: { en: 'Standard letter ending, but written with exquisite rhythm.', cn: '“羲之顿首”是当时书信的常用结语。这四个字写得从容不迫，方圆兼备，体现了“中和”之美。' },
+        type: 'history'
+      },
+      {
+        id: 'h-mount',
+        x: 10,
+        y: 50,
+        title: { en: 'Zhao Mengfu Colophon', cn: '赵孟頫题跋' },
+        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '卷后有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。' },
+        type: 'history'
+      }
+    ]
+  },
+  {
     id: 'hanshi',
     title: {
       en: 'Poem on the Cold Food Observance',
@@ -190,95 +279,6 @@ export const ARTIFACTS: Artifact[] = [
         title: { en: 'Dry Cry', cn: '呜呼哀哉' },
         content: { en: 'The final exclamation. The ink is completely dry, the brush splits. A silent scream.', cn: '结尾“呜呼哀哉”，墨已枯竭，笔锋散乱。这不仅仅是书写，而是作者发自灵魂深处的恸哭。' },
         type: 'technique'
-      }
-    ]
-  },
-  {
-    id: 'kuaixue',
-    title: {
-      en: 'Timely Clearing After Snowfall',
-      cn: '快雪时晴帖'
-    },
-    artist: {
-      en: 'Wang Xizhi',
-      cn: '王羲之'
-    },
-    dynasty: {
-      en: 'Eastern Jin Dynasty (303–361)',
-      cn: '晋 (303–361)'
-    },
-    // Reversed order: Leftmost slice -> Rightmost slice
-    images: [
-      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010057.jpg',
-      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010056.jpg',
-      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010055.jpg',
-      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010054.jpg',
-      'https://theme.npm.edu.tw/selection/att/collection/04001001/17010053.jpg'
-    ],
-    dimensions: { width: 5000, height: 1000 },
-    description: {
-      en: "Regarded as the foremost of the 'Three Rarities' by Emperor Qianlong, this letter was written by the Sage of Calligraphy, Wang Xizhi. It expresses his greeting to a friend after a snowfall.",
-      cn: "此帖被乾隆皇帝誉为“三希”之首，是“书圣”王羲之在大雪初晴时写给友人的一封信札。全帖笔法圆劲古雅，以此表达对友人的问候及对雪后美景的赞赏。"
-    },
-    artistBio: {
-      en: "Wang Xizhi (303–361), courtesy name Yishao, was a Chinese calligrapher, politician, general and writer during the Jin Dynasty. Born in Linyi, Langya, he served as the General of the Right Army, earning the moniker 'Wang Youjun'.",
-      cn: "王羲之（303–361），字逸少，琅琊临沂人，东晋时期著名书法家。曾任右军将军，世称“王右军”。他出身名门望族，不仅在书法上登峰造极，在政治和文学上也颇有建树。"
-    },
-    artistAchievement: {
-      en: "Revered as the 'Sage of Calligraphy', he revolutionized the art form by mastering all scripts and transforming the rigid styles of the Han and Wei dynasties into the fluid, expressive Running and Cursive scripts. His 'Preface to the Poems Composed at the Orchid Pavilion' is considered the greatest calligraphy work in history.",
-      cn: "被尊为“书圣”。他兼善隶、草、楷、行各体，精研体势，广采众长，备精诸体，冶于一炉，摆脱了汉魏笔风，自成一家。其代表作《兰亭序》被誉为“天下第一行书”，对中国书法产生了深远的影响。"
-    },
-    background: {
-      en: "Consisting of only 28 characters, this masterpiece is a prime example of Running Script. It was treasured in the 'Hall of Three Rarities' in the Forbidden City.",
-      cn: "《快雪时晴帖》全篇仅28字，被誉为“二十八骊珠”。清代乾隆皇帝将其与王献之《中秋帖》、王杰《伯远帖》一同收藏于“三希堂”中，并视为至宝。"
-    },
-    significance: {
-      en: "It represents the pinnacle of Semi-Cursive Script, embodying the 'Middle Way' philosophy—neither too fast nor too slow, displaying a perfect balance of square and round strokes.",
-      cn: "此帖代表了行书艺术的极高成就。笔法圆劲古雅，体势平和，展现了王羲之“不激不厉，而风规自远”的中和之美。"
-    },
-    seals: [
-      {
-        id: 'seal-qianlong',
-        name: { en: 'Qianlong Imperial Seal', cn: '乾隆御览之宝' },
-        description: { en: 'Imperial seal of Emperor Qianlong.', cn: '乾隆皇帝鉴赏时留下的御印。' },
-        x: 50,
-        y: 20,
-        size: 8
-      }
-    ],
-    // Coordinates adjusted (Title/Start is Right/High X)
-    hotspots: [
-      {
-        id: 'h-shen',
-        x: 75,
-        y: 35,
-        title: { en: 'Divine (Shen)', cn: '“神”' },
-        content: { en: 'The massive "Spirit" (Shen) character written by Emperor Qianlong, praising the work as divine.', cn: '乾隆皇帝亲笔题写的巨大“神”字，意指此帖神乎其技，是内府收藏的顶级珍宝。' },
-        type: 'seal'
-      },
-      {
-        id: 'h-snow',
-        x: 52,
-        y: 45,
-        title: { en: 'The Character "Snow" (雪)', cn: '“雪”字赏析' },
-        content: { en: 'Notice the rounded, fluid stroke.', cn: '注意“雪”字下半部分的圆转，笔法圆润流畅，仿佛展现了瑞雪初融的意境。' },
-        type: 'technique'
-      },
-      {
-        id: 'h-greeting',
-        x: 45,
-        y: 45,
-        title: { en: 'Xi Zhi Greetings', cn: '羲之顿首' },
-        content: { en: 'Standard letter ending, but written with exquisite rhythm.', cn: '“羲之顿首”是当时书信的常用结语。这四个字写得从容不迫，方圆兼备，体现了“中和”之美。' },
-        type: 'history'
-      },
-      {
-        id: 'h-mount',
-        x: 10,
-        y: 50,
-        title: { en: 'Zhao Mengfu Colophon', cn: '赵孟頫题跋' },
-        content: { en: 'The famous colophon by Zhao Mengfu.', cn: '卷后有元代大书法家赵孟頫的题跋，称赞其“古雅”，并说“不胜神往”。' },
-        type: 'history'
       }
     ]
   }
