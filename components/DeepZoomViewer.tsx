@@ -194,8 +194,25 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
       // 显示loading状态
       onAppraisalResult?.('LOADING');
 
+      // 动态获取后端URL
+      const getBackendUrl = () => {
+        const backendHost = process.env.VITE_BACKEND_HOST;
+        const backendPort = process.env.VITE_BACKEND_PORT;
+        
+        if (backendHost && backendPort) {
+          const protocol = backendHost.includes('localhost') || backendHost.includes('127.0.0.1') 
+            ? 'http' 
+            : window.location.protocol.replace(':', '');
+          return `${protocol}://${backendHost}:${backendPort}`;
+        }
+        
+        return `${window.location.protocol}//${window.location.hostname}:33001`;
+      };
+      
+      const backendUrl = getBackendUrl();
+
       // Call backend API
-      const apiResponse = await fetch('http://localhost:3001/api/analyze-calligraphy', {
+      const apiResponse = await fetch(`${backendUrl}/api/analyze-calligraphy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,15 +6,30 @@ import fetch from 'node-fetch';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.VITE_BACKEND_PORT || process.env.PORT || 33001;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// NVIDIA API 配置
-const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY;
-const NVIDIA_API_URL = process.env.NVIDIA_API_URL;
-const NVIDIA_MODEL = process.env.NVIDIA_MODEL;
+// 请求日志中间件
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`);
+  if (req.body && Object.keys(req.body).length > 0) {
+    const bodyLog = { ...req.body };
+    // 隐藏敏感信息
+    if (bodyLog.imageBase64) {
+      bodyLog.imageBase64 = `[Base64 Image: ${(bodyLog.imageBase64.length / 1024).toFixed(2)} KB]`;
+    }
+    console.log(`[${timestamp}] Request body:`, JSON.stringify(bodyLog, null, 2));
+  }
+  next();
+});
+
+// API 配置
+const API_KEY = process.env.API_KEY;
+const API_URL = process.env.API_URL;
+const MODEL = process.env.MODEL;
 
 // 健康检查
 app.get('/health', (req, res) => {
@@ -23,18 +38,19 @@ app.get('/health', (req, res) => {
 
 // AI 分析书法图片
 app.post('/api/analyze-calligraphy', async (req, res) => {
+  const startTime = Date.now();
+  console.log('📸 [AI鉴宝] 开始处理图片分析请求...');
+  
   try {
     const { imageBase64, artifactTitle, lang } = req.body;
 
     if (!imageBase64 || !artifactTitle) {
+      console.log('❌ [AI鉴宝] 缺少必需字段');
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // 压缩图片：将base64转换为buffer，然后重新编码为较小的base64
-    // 注意：这里我们直接使用原始图片，因为浏览器端的Canvas压缩有CORS问题
-    // 如果图片太大，可以考虑在这里添加sharp库进行服务端压缩
-    
-    console.log('收到图片，大小:', (imageBase64.length / 1024).toFixed(2), 'KB');
+    console.log(`📝 [AI鉴宝] 作品: ${artifactTitle}, 语言: ${lang}`);
+    console.log(`📊 [AI鉴宝] 图片大小: ${(imageBase64.length / 1024).toFixed(2)} KB`);
 
     const systemPrompt = lang === 'cn' 
       ? `你是一位资深的中国书法鉴赏专家和古文字研究学者。
@@ -66,15 +82,18 @@ app.post('/api/analyze-calligraphy', async (req, res) => {
       ? `请识别并赏析《${artifactTitle}》这个局部的文字内容和书法艺术：` 
       : `Please identify and analyze the text content and calligraphy art of this section from "${artifactTitle}":`;
 
-    // 调用 NVIDIA API (OpenAI 兼容格式)
-    const response = await fetch(`${NVIDIA_API_URL}/v1/chat/completions`, {
+    console.log(`🚀 [AI鉴宝] 调用 API: ${API_URL}`);
+    console.log(`🤖 [AI鉴宝] 使用模型: ${MODEL}`);
+
+    // 调用 API (OpenAI 兼容格式)
+    const response = await fetch(`${API_URL}/v1/chat/completions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${NVIDIA_API_KEY}`
+        'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: NVIDIA_MODEL,
+        model: MODEL,
         messages: [
           {
             role: 'system',
@@ -103,21 +122,24 @@ app.post('/api/analyze-calligraphy', async (req, res) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('NVIDIA API Error:', errorText);
+      console.error('❌ [AI鉴宝] API错误:', errorText);
       throw new Error(`API request failed: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('API Response:', JSON.stringify(data, null, 2));
+    const elapsedTime = Date.now() - startTime;
+    console.log(`✅ [AI鉴宝] API响应成功 (耗时: ${elapsedTime}ms)`);
+    console.log(`📊 [AI鉴宝] Token使用: prompt=${data.usage?.prompt_tokens}, completion=${data.usage?.completion_tokens}`);
     
     const analysis = data.choices?.[0]?.message?.content || 
       (lang === 'cn' ? '墨韵无言，静待品味。' : 'The ink speaks in silence.');
 
-    console.log('Analysis result:', analysis);
+    console.log(`📝 [AI鉴宝] 分析结果长度: ${analysis.length} 字符`);
     res.json({ analysis });
 
   } catch (error) {
-    console.error('Analysis Error:', error);
+    const elapsedTime = Date.now() - startTime;
+    console.error(`❌ [AI鉴宝] 处理失败 (耗时: ${elapsedTime}ms):`, error.message);
     res.status(500).json({ 
       error: lang === 'cn' 
         ? '笔墨精灵今日静默，请稍后再试。' 
@@ -128,12 +150,20 @@ app.post('/api/analyze-calligraphy', async (req, res) => {
 
 // 策展人对话
 app.post('/api/curator-chat', async (req, res) => {
+  const startTime = Date.now();
+  console.log('💬 [策展人] 开始处理对话请求...');
+  
   try {
     const { query, context, lang } = req.body;
 
     if (!query) {
+      console.log('❌ [策展人] 缺少查询内容');
       return res.status(400).json({ error: 'Missing query' });
     }
+
+    console.log(`📝 [策展人] 问题: ${query.substring(0, 50)}${query.length > 50 ? '...' : ''}`);
+    console.log(`🎨 [策展人] 上下文: ${context.substring(0, 50)}...`);
+    console.log(`🌐 [策展人] 语言: ${lang}`);
 
     const systemPrompt = lang === 'cn'
       ? `你是一位中国书法博物馆的资深策展人。你的语气优雅、学术但易懂——就像一位智慧的教授带领客人参观私人收藏。
@@ -160,14 +190,17 @@ app.post('/api/curator-chat', async (req, res) => {
          Keep answers concise (under 150 words) unless asked for a detailed history. 
          Use "We" to refer to the museum.`;
 
-    const response = await fetch(`${NVIDIA_API_URL}/v1/chat/completions`, {
+    console.log(`🚀 [策展人] 调用 API: ${API_URL}`);
+    console.log(`🤖 [策展人] 使用模型: ${MODEL}`);
+
+    const response = await fetch(`${API_URL}/v1/chat/completions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${NVIDIA_API_KEY}`
+        'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: NVIDIA_MODEL,
+        model: MODEL,
         messages: [
           {
             role: 'system',
@@ -185,18 +218,24 @@ app.post('/api/curator-chat', async (req, res) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('NVIDIA API Error:', errorText);
+      console.error('❌ [策展人] API错误:', errorText);
       throw new Error(`API request failed: ${response.status}`);
     }
 
     const data = await response.json();
+    const elapsedTime = Date.now() - startTime;
+    console.log(`✅ [策展人] API响应成功 (耗时: ${elapsedTime}ms)`);
+    console.log(`📊 [策展人] Token使用: prompt=${data.usage?.prompt_tokens}, completion=${data.usage?.completion_tokens}`);
+    
     const answer = data.choices?.[0]?.message?.content || 
       (lang === 'cn' ? '我静默沉思中。（未生成回复）' : 'I remain silent in contemplation. (No response generated)');
 
+    console.log(`📝 [策展人] 回答长度: ${answer.length} 字符`);
     res.json({ answer });
 
   } catch (error) {
-    console.error('Chat Error:', error);
+    const elapsedTime = Date.now() - startTime;
+    console.error(`❌ [策展人] 处理失败 (耗时: ${elapsedTime}ms):`, error.message);
     res.status(500).json({ 
       error: lang === 'cn'
         ? '笔墨精灵今日静默，请稍后再试。'
@@ -206,6 +245,13 @@ app.post('/api/curator-chat', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🎨 Calligraphy Museum API Server running on http://localhost:${PORT}`);
-  console.log(`📝 Using model: ${NVIDIA_MODEL}`);
+  console.log('='.repeat(60));
+  console.log('🎨 书法博物馆 API 服务器');
+  console.log('='.repeat(60));
+  console.log(`📡 服务地址: http://localhost:${PORT}`);
+  console.log(`🤖 AI模型: ${MODEL}`);
+  console.log(`🔗 API地址: ${API_URL}`);
+  console.log(`⏰ 启动时间: ${new Date().toLocaleString('zh-CN')}`);
+  console.log('='.repeat(60));
+  console.log('');
 });
