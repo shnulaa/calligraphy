@@ -16,8 +16,7 @@ COPY . .
 # 构建前端
 RUN npm run build
 
-# 确保 assets 目录在 dist 中（包括 css 子目录）
-RUN mkdir -p dist/assets && cp -r assets/* dist/assets/ || true
+# assets 会被 Vite 自动复制到 dist（通过 publicDir 配置）
 
 # 暴露端口
 EXPOSE 3000 3001

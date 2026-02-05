@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
     
     return {
       base: '/',
+      publicDir: 'assets',  // 将 assets 目录作为公共资源
       server: {
         port: frontendPort,
         host: '0.0.0.0',
