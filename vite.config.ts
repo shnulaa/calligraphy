@@ -9,14 +9,20 @@ export default defineConfig(({ mode }) => {
     return {
       base: '/',
       publicDir: 'assets',  // 将 assets 目录作为公共资源
-      server: {
-        port: frontendPort,
-        host: '0.0.0.0',
-      },
       preview: {
         port: frontendPort,
         host: '0.0.0.0',
         strictPort: true,
+        proxy: {
+          // 禁用 host 检查的另一种方式
+        }
+      },
+      server: {
+        port: frontendPort,
+        host: '0.0.0.0',
+        proxy: {
+          // 禁用 host 检查
+        }
       },
       plugins: [react()],
       define: {
