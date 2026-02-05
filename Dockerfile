@@ -10,11 +10,14 @@ COPY package*.json ./
 # 安装所有依赖
 RUN npm ci
 
-# 复制源代码
+# 复制源代码和资源文件
 COPY . .
 
 # 构建前端
 RUN npm run build
+
+# 确保 assets 目录在 dist 中
+RUN cp -r assets dist/ || true
 
 # 暴露端口
 EXPOSE 3000 3001
