@@ -17,31 +17,31 @@ fi
 
 # 停止并删除旧容器
 echo "🧹 清理旧容器..."
-docker-compose down
+docker compose down
 
 # 构建并启动
 echo "🔨 构建镜像..."
-docker-compose build
+docker compose build
 
 echo "🚀 启动容器..."
-docker-compose up -d
+docker compose up -d
 
 # 等待服务启动
 echo "⏳ 等待服务启动..."
 sleep 5
 
 # 检查容器状态
-if docker-compose ps | grep -q "Up"; then
+if docker compose ps | grep -q "Up"; then
     echo "✅ 应用启动成功！"
     echo ""
     echo "📱 访问地址："
     echo "  前端: http://localhost:3000"
     echo "  后端: http://localhost:3001"
     echo ""
-    echo "📋 查看日志: docker-compose logs -f"
-    echo "🛑 停止应用: docker-compose down"
+    echo "📋 查看日志: docker compose logs -f"
+    echo "🛑 停止应用: docker compose down"
 else
     echo "❌ 应用启动失败，请查看日志："
-    docker-compose logs
+    docker compose logs
     exit 1
 fi

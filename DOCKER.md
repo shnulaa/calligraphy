@@ -16,7 +16,7 @@ GEMINI_API_KEY=your_gemini_key
 
 3. 启动应用：
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 4. 访问应用：
@@ -25,12 +25,12 @@ docker-compose up -d
 
 5. 查看日志：
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 6. 停止应用：
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### 使用 Docker（基础版）
