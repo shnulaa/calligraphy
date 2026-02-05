@@ -10,8 +10,8 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const FRONTEND_PORT = process.env.VITE_FRONTEND_PORT || '33000';
-const BACKEND_PORT = process.env.VITE_BACKEND_PORT || '33001';
+const FRONTEND_PORT = '33000';  // 固定端口
+const BACKEND_PORT = '33001';   // 固定端口
 
 console.log('🎨 启动书法博物馆应用...');
 console.log('📂 工作目录:', __dirname);

@@ -196,16 +196,18 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
 
       // 动态获取后端URL
       const getBackendUrl = () => {
-        const backendHost = process.env.VITE_BACKEND_HOST;
-        const backendPort = process.env.VITE_BACKEND_PORT;
+        // 检查是否通过反向代理访问（没有端口号或标准端口，或者是48888端口）
+        const port = window.location.port;
+        const isProxied = port === '' || 
+                          port === '80' || 
+                          port === '443' ||
+                          port === '48888';
         
-        if (backendHost && backendPort) {
-          const protocol = backendHost.includes('localhost') || backendHost.includes('127.0.0.1') 
-            ? 'http' 
-            : window.location.protocol.replace(':', '');
-          return `${protocol}://${backendHost}:${backendPort}`;
+        if (isProxied) {
+          return '';  // 相对路径，Nginx会代理
         }
         
+        // 开发环境：直接访问后端端口
         return `${window.location.protocol}//${window.location.hostname}:33001`;
       };
       

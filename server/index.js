@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.VITE_BACKEND_PORT || process.env.PORT || 33001;
+const PORT = 33001;  // 固定端口
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));

@@ -1,19 +1,19 @@
 // 获取后端配置
 const getBackendUrl = () => {
-  // 优先使用环境变量配置
-  const backendHost = process.env.VITE_BACKEND_HOST;
-  const backendPort = process.env.VITE_BACKEND_PORT;
-  
-  if (backendHost && backendPort) {
-    // 如果配置了具体的host，使用配置的值
-    const protocol = backendHost.includes('localhost') || backendHost.includes('127.0.0.1') 
-      ? 'http' 
-      : window.location.protocol.replace(':', '');
-    return `${protocol}://${backendHost}:${backendPort}`;
-  }
-  
-  // 否则使用当前域名 + 33001端口
   if (typeof window !== 'undefined') {
+    // 检查是否通过反向代理访问（没有端口号或标准端口，或者是48888端口）
+    const port = window.location.port;
+    const isProxied = port === '' || 
+                      port === '80' || 
+                      port === '443' ||
+                      port === '48888';
+    
+    if (isProxied) {
+      // 使用相对路径，Nginx会代理到后端
+      return '';
+    }
+    
+    // 开发环境：直接访问后端端口
     return `${window.location.protocol}//${window.location.hostname}:33001`;
   }
   
