@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = 'AIzaSyDwDb_oOuF6jS7XBGgxog_Uu9QC7Nls60s';
+const API_KEY = process.env.GEMINI_API_KEY || '';
 const BACKEND_URL = 'http://localhost:3001';
 
 // Safely initialize API
