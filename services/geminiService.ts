@@ -1,15 +1,12 @@
 // 获取后端配置
 const getBackendUrl = () => {
   if (typeof window !== 'undefined') {
-    // 检查是否通过反向代理访问（没有端口号或标准端口，或者是48888端口）
     const port = window.location.port;
-    const isProxied = port === '' || 
-                      port === '80' || 
-                      port === '443' ||
-                      port === '48888';
+    // 只要不是直接访问开发端口 33000/33001，都通过代理
+    const isDevelopment = port === '33000' || port === '33001';
     
-    if (isProxied) {
-      // 使用相对路径，Nginx会代理到后端
+    if (!isDevelopment) {
+      // 使用相对路径，通过 Nginx 代理
       return '';
     }
     
