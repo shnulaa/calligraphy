@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  calligraphy-museum:
+    build: .
+    container_name: calligraphy-museum
+    ports:
+      - "3000:3000"  # 前端端口
+      - "3001:3001"  # 后端API端口
+    environment:
+      - NODE_ENV=production
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
+      - NVIDIA_API_URL=${NVIDIA_API_URL}
+      - NVIDIA_MODEL=${NVIDIA_MODEL}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./assets:/app/assets:ro  # 只读挂载资源文件
+    networks:
+      - calligraphy-network
+
+networks:
+  calligraphy-network:
+    driver: bridge

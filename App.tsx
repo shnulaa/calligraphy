@@ -10,8 +10,17 @@ const App: React.FC = () => {
   const [lang, setLang] = useState<'en' | 'cn'>('cn');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showTopMenu, setShowTopMenu] = useState(false);
+  const [appraisalMessage, setAppraisalMessage] = useState<string | null>(null);
 
   const currentArtifact = ARTIFACTS[currentIndex];
+
+  const handleAppraisalResult = (analysis: string) => {
+    setAppraisalMessage(analysis);
+  };
+
+  const handleMessageDisplayed = () => {
+    setAppraisalMessage(null); // 清空消息，准备接收下一个
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -230,7 +239,12 @@ const App: React.FC = () => {
         {/* The Viewer Component */}
         {/* Key forces remount when artifact changes to reset zoom */}
         <div className="h-[80vh] w-full bg-stone-100 shadow-inner relative">
-          <DeepZoomViewer key={currentArtifact.id} artifact={currentArtifact} lang={lang} />
+          <DeepZoomViewer 
+            key={currentArtifact.id} 
+            artifact={currentArtifact} 
+            lang={lang}
+            onAppraisalResult={handleAppraisalResult}
+          />
         </div>
 
         {/* Catalog Navigation (Bottom Bar) */}
@@ -279,7 +293,9 @@ const App: React.FC = () => {
       <CuratorChat 
         key={`chat-${currentArtifact.id}`} // Reset chat when artifact changes
         artifactContext={`${currentArtifact.title.en} by ${currentArtifact.artist.en}. ${currentArtifact.description.en}`} 
-        lang={lang} 
+        lang={lang}
+        externalMessage={appraisalMessage}
+        onMessageDisplayed={handleMessageDisplayed}
       />
 
     </div>

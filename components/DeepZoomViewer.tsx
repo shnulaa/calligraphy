@@ -1,16 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { ZoomIn, ZoomOut, Maximize, Eye, PenTool } from 'lucide-react';
+import { ZoomIn, ZoomOut, Maximize, Eye, PenTool, Sparkles } from 'lucide-react';
 import { INITIAL_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../constants';
 import { Artifact } from '../types';
 import { TracingCanvas } from './TracingCanvas';
+import { analyzeCalligraphyImage } from '../services/geminiService';
 
 interface DeepZoomViewerProps {
   artifact: Artifact;
   lang: 'en' | 'cn';
   onViewChange?: (viewState: string) => void;
+  onAppraisalResult?: (analysis: string) => void;
 }
 
-export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, onViewChange }) => {
+export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, onViewChange, onAppraisalResult }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(INITIAL_ZOOM);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -18,6 +20,9 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [mode, setMode] = useState<'view' | 'trace' | 'microscope'>('view');
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzingImageIndex, setAnalyzingImageIndex] = useState<number | null>(null);
 
   // Helper: Handle Zoom Logic (Zoom to Point)
   const handleZoom = (targetScale: number, clientX?: number, clientY?: number) => {
@@ -115,6 +120,114 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
     setPosition({ x: 0, y: 0 });
   };
 
+  // AI Analysis - Capture current view and send to Gemini
+  const handleAiAnalysis = async () => {
+    const container = containerRef.current;
+    if (!container || isAnalyzing) return;
+
+    setIsAnalyzing(true);
+    setAiAnalysis(null);
+
+    try {
+      // Use html2canvas to capture the current view
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(container, {
+        backgroundColor: '#F4F1DE',
+        scale: 1,
+        logging: false,
+      });
+
+      const imageDataUrl = canvas.toDataURL('image/png');
+      
+      // Send to Gemini for analysis
+      const analysis = await analyzeCalligraphyImage(
+        imageDataUrl,
+        artifact.title[lang],
+        lang
+      );
+      
+      setAiAnalysis(analysis);
+    } catch (error) {
+      console.error('AI Analysis Error:', error);
+      setAiAnalysis(
+        lang === 'cn' 
+          ? '赏析过程中出现问题，请稍后再试。' 
+          : 'An error occurred during analysis. Please try again.'
+      );
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  // Analyze individual image
+  const handleImageAnalysis = async (imageIndex: number) => {
+    if (isAnalyzing) return;
+
+    setAnalyzingImageIndex(imageIndex);
+    setIsAnalyzing(true);
+
+    // 立即触发策展人对话框打开并显示用户消息
+    const userMessage = lang === 'cn' ? '请鉴宝当前图片' : 'Please appraise this image';
+    onAppraisalResult?.(`USER_MESSAGE:${userMessage}`);
+
+    try {
+      const imageUrl = artifact.images[imageIndex];
+      
+      // 直接读取图片文件并转换为 base64
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      
+      // 将 blob 转换为 base64
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const result = reader.result as string;
+          const base64Data = result.split(',')[1];
+          resolve(base64Data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+
+      console.log('图片读取完成，大小:', (base64.length / 1024).toFixed(2), 'KB');
+
+      // 显示loading状态
+      onAppraisalResult?.('LOADING');
+
+      // Call backend API
+      const apiResponse = await fetch('http://localhost:3001/api/analyze-calligraphy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageBase64: base64,
+          artifactTitle: artifact.title[lang],
+          lang: lang
+        })
+      });
+
+      if (apiResponse.ok) {
+        const data = await apiResponse.json();
+        // 将结果发送到策展人对话框
+        onAppraisalResult?.(`AI_RESPONSE:${data.analysis}`);
+      } else {
+        const errorData = await apiResponse.json();
+        console.error('API Error:', errorData);
+        throw new Error(errorData.error || 'API request failed');
+      }
+    } catch (error) {
+      console.error('Image Analysis Error:', error);
+      const errorMsg = lang === 'cn' 
+        ? '鉴宝过程中出现问题，请稍后再试。' 
+        : 'An error occurred during appraisal. Please try again.';
+      onAppraisalResult?.(`AI_RESPONSE:${errorMsg}`);
+    } finally {
+      setIsAnalyzing(false);
+      setAnalyzingImageIndex(null);
+    }
+  };
+
   const microscopeStyle = mode === 'microscope' ? {
     filter: 'contrast(1.2) brightness(1.1) sepia(0.2)',
     cursor: 'zoom-in',
@@ -150,6 +263,15 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
           >
             <Maximize size={20} />
           </button>
+          <div className="h-px bg-stone-200 my-1"></div>
+          <button 
+             onClick={handleAiAnalysis}
+             disabled={isAnalyzing}
+             className={`p-2 rounded transition-colors ${isAnalyzing ? 'bg-stone-100 text-stone-400' : 'hover:bg-cinnabar hover:text-paper text-cinnabar'}`}
+             title={lang === 'cn' ? "AI 赏析" : "AI Analysis"}
+          >
+            <Sparkles size={20} className={isAnalyzing ? 'animate-pulse' : ''} />
+          </button>
         </div>
 
         <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg border border-stone-200 flex flex-col gap-2">
@@ -182,65 +304,97 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
           className="relative shadow-2xl flex flex-row shrink-0"
         >
           {/* Render Multiple Images for Handscroll Effect */}
-          {artifact.images.map((imgSrc, index) => (
-            <img 
-              key={index}
-              src={imgSrc} 
-              alt={`${artifact.title[lang]} - Part ${index + 1}`}
-              className="h-[60vh] w-auto object-cover pointer-events-none block shrink-0" 
-              draggable={false}
-              style={{ marginRight: -1 }}
-            />
-          ))}
-
-          {/* Hotspots Overlay */}
-          {mode === 'view' && artifact.hotspots.map(hs => (
-            <div 
-              key={hs.id}
-              className="absolute z-20 group/hotspot"
-              style={{ top: `${hs.y}%`, left: `${hs.x}%` }}
-            >
-              <button 
-                onClick={() => setActiveHotspot(activeHotspot === hs.id ? null : hs.id)}
-                className="w-6 h-6 -ml-3 -mt-3 rounded-full bg-cinnabar/80 border border-paper shadow-lg flex items-center justify-center animate-pulse hover:animate-none hover:scale-110 transition-transform"
-                onTouchEnd={(e) => { e.stopPropagation(); setActiveHotspot(activeHotspot === hs.id ? null : hs.id); }}
-              >
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </button>
-              
-              {/* Tooltip */}
-              <div 
-                className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-64 bg-ink/90 backdrop-blur-sm text-paper p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 z-50 ${
-                  activeHotspot === hs.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                }`}
-              >
-                <h4 className="font-serif font-bold text-cinnabar mb-1">{hs.title[lang]}</h4>
-                <p className="text-xs leading-relaxed font-song text-stone-200">{hs.content[lang]}</p>
-              </div>
+          <div className="relative flex flex-col shrink-0">
+            <div className="flex flex-row">
+              {artifact.images.map((imgSrc, index) => (
+                <div key={index} className="relative shrink-0">
+                  <img 
+                    src={imgSrc} 
+                    alt={`${artifact.title[lang]} - Part ${index + 1}`}
+                    className="h-[60vh] w-auto object-cover pointer-events-none block" 
+                    draggable={false}
+                    style={{ marginRight: -1 }}
+                  />
+                  
+                  {/* AI Appraisal Button for each image */}
+                  {mode === 'view' && (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30">
+                      <button
+                        onClick={() => handleImageAnalysis(index)}
+                        disabled={isAnalyzing}
+                        className={`bg-cinnabar/90 hover:bg-cinnabar text-paper px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transition-all text-sm font-serif ${
+                          isAnalyzing && analyzingImageIndex === index ? 'animate-pulse' : ''
+                        } ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}`}
+                      >
+                        <Sparkles size={16} className={analyzingImageIndex === index ? 'animate-spin' : ''} />
+                        <span>{lang === 'cn' ? 'AI鉴宝' : 'AI Appraise'}</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
 
-          {/* Seals Overlay */}
-           {mode === 'view' && artifact.seals.map(seal => (
-             <div 
-                key={seal.id}
-                className="absolute border border-cinnabar/30 hover:border-cinnabar hover:bg-cinnabar/10 transition-colors cursor-help rounded-sm"
-                style={{ 
-                  top: `${seal.y}%`, 
-                  left: `${seal.x}%`, 
-                  width: `${seal.size}%`, 
-                  height: `${seal.size * 2}%`
-                }}
-                title={seal.name[lang]}
-             />
-           ))}
+            {/* Hotspots Overlay - positioned relative to the scroll width */}
+            {mode === 'view' && artifact.hotspots.map(hs => {
+              // Calculate position based on scroll width (sum of all images)
+              const scrollWidth = artifact.dimensions.width;
+              const scrollHeight = artifact.dimensions.height;
+              
+              return (
+                <div 
+                  key={hs.id}
+                  className="absolute z-20 group/hotspot"
+                  style={{ 
+                    top: `${hs.y}%`, 
+                    left: `${hs.x}%` 
+                  }}
+                >
+                  <button 
+                    onClick={() => setActiveHotspot(activeHotspot === hs.id ? null : hs.id)}
+                    className="w-6 h-6 -ml-3 -mt-3 rounded-full bg-cinnabar/80 border border-paper shadow-lg flex items-center justify-center animate-pulse hover:animate-none hover:scale-110 transition-transform"
+                    onTouchEnd={(e) => { e.stopPropagation(); setActiveHotspot(activeHotspot === hs.id ? null : hs.id); }}
+                  >
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  </button>
+                  
+                  {/* Tooltip */}
+                  <div 
+                    className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-64 bg-ink/90 backdrop-blur-sm text-paper p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 z-50 ${
+                      activeHotspot === hs.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    }`}
+                  >
+                    <h4 className="font-serif font-bold text-cinnabar mb-1">{hs.title[lang]}</h4>
+                    <p className="text-xs leading-relaxed font-song text-stone-200">{hs.content[lang]}</p>
+                  </div>
+                </div>
+              );
+            })}
 
-          {/* Tracing Layer */}
-          <TracingCanvas 
-            width={artifact.dimensions.width} 
-            height={artifact.dimensions.height} 
-            isActive={mode === 'trace'}
-          />
+            {/* Seals Overlay - positioned relative to scroll dimensions */}
+            {mode === 'view' && artifact.seals.map(seal => {
+              return (
+                <div 
+                   key={seal.id}
+                   className="absolute border border-cinnabar/30 hover:border-cinnabar hover:bg-cinnabar/10 transition-colors cursor-help rounded-sm"
+                   style={{ 
+                     top: `${seal.y}%`, 
+                     left: `${seal.x}%`, 
+                     width: `${seal.size}%`, 
+                     height: `${seal.size * 2}%`
+                   }}
+                   title={seal.name[lang]}
+                />
+              );
+            })}
+
+            {/* Tracing Layer */}
+            <TracingCanvas 
+              width={artifact.dimensions.width} 
+              height={artifact.dimensions.height} 
+              isActive={mode === 'trace'}
+            />
+          </div>
 
         </div>
       </div>
@@ -260,6 +414,29 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
               ? (lang === 'cn' ? '跟随笔触 临摹书法' : 'Draw over the strokes')
               : (lang === 'cn' ? '赏析纸墨纹理' : 'Examining Texture')}
       </div>
+
+      {/* AI Analysis Panel */}
+      {aiAnalysis && (
+        <div className="absolute top-6 left-6 max-w-md bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl border border-stone-200 z-40 animate-in fade-in slide-in-from-left duration-300">
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles size={20} className="text-cinnabar" />
+              <h3 className="font-serif font-bold text-ink">
+                {lang === 'cn' ? 'AI 赏析' : 'AI Analysis'}
+              </h3>
+            </div>
+            <button 
+              onClick={() => setAiAnalysis(null)}
+              className="text-stone-400 hover:text-ink transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="text-sm leading-relaxed text-ink/80 font-song whitespace-pre-wrap">
+            {aiAnalysis}
+          </div>
+        </div>
+      )}
 
     </div>
   );

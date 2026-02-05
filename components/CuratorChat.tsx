@@ -6,14 +6,55 @@ import { ChatMessage } from '../types';
 interface CuratorChatProps {
   artifactContext: string;
   lang: 'en' | 'cn';
+  externalMessage?: string | null;
+  onMessageDisplayed?: () => void;
 }
 
-export const CuratorChat: React.FC<CuratorChatProps> = ({ artifactContext, lang }) => {
+export const CuratorChat: React.FC<CuratorChatProps> = ({ artifactContext, lang, externalMessage, onMessageDisplayed }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isThinking, setIsThinking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // 处理外部消息（AI鉴宝结果）
+  useEffect(() => {
+    if (externalMessage) {
+      // 处理用户消息
+      if (externalMessage.startsWith('USER_MESSAGE:')) {
+        const userText = externalMessage.replace('USER_MESSAGE:', '');
+        const userMsg: ChatMessage = {
+          id: Date.now().toString(),
+          role: 'user',
+          text: userText
+        };
+        setMessages(prev => [...prev, userMsg]);
+        setIsOpen(true); // 自动打开对话框
+        onMessageDisplayed?.();
+        // 延迟滚动，确保DOM已更新
+        setTimeout(scrollToBottom, 100);
+      }
+      // 处理loading状态
+      else if (externalMessage === 'LOADING') {
+        setIsThinking(true);
+        onMessageDisplayed?.();
+        setTimeout(scrollToBottom, 100);
+      }
+      // 处理AI回复
+      else if (externalMessage.startsWith('AI_RESPONSE:')) {
+        const aiText = externalMessage.replace('AI_RESPONSE:', '');
+        const modelMsg: ChatMessage = {
+          id: Date.now().toString(),
+          role: 'model',
+          text: aiText
+        };
+        setMessages(prev => [...prev, modelMsg]);
+        setIsThinking(false);
+        onMessageDisplayed?.();
+        setTimeout(scrollToBottom, 100);
+      }
+    }
+  }, [externalMessage, onMessageDisplayed]);
 
   // Initialize greeting when lang changes
   useEffect(() => {
@@ -32,7 +73,7 @@ export const CuratorChat: React.FC<CuratorChatProps> = ({ artifactContext, lang 
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isThinking]); // 添加 isThinking 依赖
 
   const handleSend = async () => {
     if (!input.trim() || isThinking) return;
@@ -47,8 +88,8 @@ export const CuratorChat: React.FC<CuratorChatProps> = ({ artifactContext, lang 
     setInput('');
     setIsThinking(true);
 
-    const contextWithLang = `${artifactContext} (Please answer in ${lang === 'cn' ? 'Chinese' : 'English'})`;
-    const responseText = await generateCuratorResponse(input, contextWithLang);
+    const contextWithLang = artifactContext;
+    const responseText = await generateCuratorResponse(input, contextWithLang, lang);
 
     const modelMsg: ChatMessage = {
       id: (Date.now() + 1).toString(),
@@ -91,7 +132,9 @@ export const CuratorChat: React.FC<CuratorChatProps> = ({ artifactContext, lang 
                       : 'bg-white/80 text-ink border-stone-200 shadow-sm'
                   }`}
                 >
-                  {msg.text}
+                  <div className="whitespace-pre-wrap break-words font-song">
+                    {msg.text}
+                  </div>
                 </div>
               </div>
             ))}
