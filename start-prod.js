@@ -30,7 +30,7 @@ const server = spawn('node', ['server/index.js'], {
 // 等待1秒后启动前端
 setTimeout(() => {
   console.log('🌐 启动前端预览服务器...');
-  const preview = spawn('npx', ['vite', 'preview', '--host', '0.0.0.0', '--port', FRONTEND_PORT], {
+  const preview = spawn('npx', ['vite', 'preview', '--host', '0.0.0.0', '--port', FRONTEND_PORT, '--strictPort'], {
     stdio: 'inherit',
     shell: true,
     cwd: __dirname,

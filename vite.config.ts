@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       preview: {
         port: frontendPort,
         host: '0.0.0.0',
+        strictPort: true,
       },
       plugins: [react()],
       define: {
