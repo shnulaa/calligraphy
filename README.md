@@ -6,35 +6,39 @@
 An immersive digital museum for Chinese calligraphy, featuring AI-powered appraisal and curator chat capabilities.
 
 ## 📸 项目截图 / Screenshots
-
 <div align="center">
-  <img src="assets/screenshots/11.jpg" alt="书法作品浏览" width="800"/>
-  <p><em>深度缩放浏览 - 高清书法作品无损缩放</em></p>
-</div>
-
-<div align="center">
-  <img src="assets/screenshots/22.jpg" alt="AI鉴宝功能" width="800"/>
+  <img src="assets/screenshots/1.jpg" alt="书法作品浏览" width="800"/>
   <p><em>AI 鉴宝 - 智能识别和分析书法内容</em></p>
 </div>
 
 <div align="center">
-  <img src="assets/screenshots/33.jpg" alt="策展人对话" width="800"/>
-  <p><em>AI 策展人 - 深入了解作品背景和艺术特色</em></p>
+  <img src="assets/screenshots/11.jpg" alt="作者介绍" width="800"/>
+  <p><em>作者介绍</em></p>
 </div>
 
 <div align="center">
-  <img src="assets/screenshots/44.jpg" alt="临摹模式" width="800"/>
-  <p><em>临摹模式 - 在书法作品上进行数字临摹</em></p>
+  <img src="assets/screenshots/22.jpg" alt="AI鉴宝功能" width="800"/>
+  <p><em>深度缩放浏览 - 高清书法作品无损缩放 微观赏析 - 放大观察笔墨纹理细节</em></p>
 </div>
 
 <div align="center">
-  <img src="assets/screenshots/55.jpg" alt="微观赏析" width="800"/>
-  <p><em>微观赏析 - 放大观察笔墨纹理细节</em></p>
+  <img src="assets/screenshots/33.jpg" alt="作者介绍" width="800"/>
+  <p><em>AI 作者介绍</em></p>
 </div>
 
 <div align="center">
-  <img src="assets/screenshots/66.jpg" alt="双语支持" width="800"/>
-  <p><em>双语界面 - 中文/英文自由切换</em></p>
+  <img src="assets/screenshots/44.jpg" alt="AI鉴宝功能" width="800"/>
+  <p><em>深度缩放浏览 - 高清书法作品无损缩放 微观赏析 - 放大观察笔墨纹理细节</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/55.jpg" alt="作者介绍" width="800"/>
+  <p><em>作者介绍</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/66.jpg" alt="AI鉴宝功能" width="800"/>
+  <p><em>深度缩放浏览 - 高清书法作品无损缩放 微观赏析 - 放大观察笔墨纹理细节</em></p>
 </div>
 
 ## ✨ 主要功能 / Features
