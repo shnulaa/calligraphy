@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # 墨雪：数字书法博物馆 / Ink & Snow: Digital Calligraphy Museum
 
 一个沉浸式的中国书法数字博物馆，结合 AI 技术提供智能鉴赏和策展人对话功能。
