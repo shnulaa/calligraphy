@@ -284,7 +284,23 @@ npm run preview
 
 ## 📄 许可证 / License
 
-MIT License
+本项目采用 MIT License 开源。详见 [LICENSE](LICENSE) 文件。
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) file for details.
+
+### ⚠️ 重要版权声明
+
+**书法作品图片仅供教育、学习和研究目的使用，不得用于商业用途。**
+
+本项目中展示的书法作品可能受版权保护。如果您是版权所有者并认为您的权利受到侵犯，请通过 GitHub Issues 联系我们，我们将立即删除相关内容。
+
+详细版权信息请查看 [COPYRIGHT.md](COPYRIGHT.md)。
+
+**The calligraphy artwork images are for educational, learning, and research purposes only. Commercial use is prohibited.**
+
+The calligraphy artworks displayed in this project may be copyrighted. If you are the copyright owner and believe your rights have been infringed, please contact us through GitHub Issues and we will remove the content immediately.
+
+For detailed copyright information, see [COPYRIGHT.md](COPYRIGHT.md).
 
 ## 🤝 贡献 / Contributing
 
