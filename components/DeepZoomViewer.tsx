@@ -10,9 +10,10 @@ interface DeepZoomViewerProps {
   lang: 'en' | 'cn';
   onViewChange?: (viewState: string) => void;
   onAppraisalResult?: (analysis: string) => void;
+  isDark?: boolean;
 }
 
-export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, onViewChange, onAppraisalResult }) => {
+export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, onViewChange, onAppraisalResult, isDark = false }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(INITIAL_ZOOM);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -250,50 +251,50 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
   } : {};
 
   return (
-    <div className="relative w-full h-full bg-paper overflow-hidden select-none border-t border-b border-stone-300 shadow-inner group touch-none">
+    <div className={`relative w-full h-full ${isDark ? 'bg-gray-900' : 'bg-paper'} overflow-hidden select-none border-t border-b ${isDark ? 'border-gray-700' : 'border-stone-300'} shadow-inner group touch-none`}>
       
       {/* Texture Overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-30 z-10 bg-rice-paper mix-blend-multiply"></div>
+      <div className={`absolute inset-0 pointer-events-none opacity-30 z-10 ${isDark ? 'bg-gray-800' : 'bg-rice-paper'} mix-blend-multiply`}></div>
 
       {/* Toolbar */}
       <div className="absolute top-6 right-6 z-40 flex flex-col gap-3">
-        <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg border border-stone-200 flex flex-col gap-2">
+        <div className={`${isDark ? 'bg-gray-800/90 border-gray-700' : 'bg-white/90 border-stone-200'} backdrop-blur p-2 rounded-lg shadow-lg border flex flex-col gap-2`}>
           <button 
             onClick={() => setMode('view')} 
-            className={`p-2 rounded transition-colors ${mode === 'view' ? 'bg-ink text-paper' : 'hover:bg-stone-100 text-ink'}`}
+            className={`p-2 rounded transition-colors ${mode === 'view' ? 'bg-ink text-paper' : (isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink')}`}
             title={lang === 'cn' ? "浏览模式" : "View Mode"}
           >
             <Eye size={20} />
           </button>
           <button 
              onClick={() => { setMode('trace'); setScale(1.5); setPosition({x:0, y:0}); }} 
-             className={`p-2 rounded transition-colors ${mode === 'trace' ? 'bg-ink text-paper' : 'hover:bg-stone-100 text-ink'}`}
+             className={`p-2 rounded transition-colors ${mode === 'trace' ? 'bg-ink text-paper' : (isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink')}`}
              title={lang === 'cn' ? "临摹模式" : "Tracing Mode"}
           >
             <PenTool size={20} />
           </button>
           <button 
              onClick={() => { setMode('microscope'); handleZoom(4); }} 
-             className={`p-2 rounded transition-colors ${mode === 'microscope' ? 'bg-ink text-paper' : 'hover:bg-stone-100 text-ink'}`}
+             className={`p-2 rounded transition-colors ${mode === 'microscope' ? 'bg-ink text-paper' : (isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink')}`}
              title={lang === 'cn' ? "微观赏析" : "Microscope View"}
           >
             <Maximize size={20} />
           </button>
-          <div className="h-px bg-stone-200 my-1"></div>
+          <div className={`h-px ${isDark ? 'bg-gray-700' : 'bg-stone-200'} my-1`}></div>
           <button 
              onClick={handleAiAnalysis}
              disabled={isAnalyzing}
-             className={`p-2 rounded transition-colors ${isAnalyzing ? 'bg-stone-100 text-stone-400' : 'hover:bg-cinnabar hover:text-paper text-cinnabar'}`}
+             className={`p-2 rounded transition-colors ${isAnalyzing ? (isDark ? 'bg-gray-700 text-gray-500' : 'bg-stone-100 text-stone-400') : 'hover:bg-cinnabar hover:text-paper text-cinnabar'}`}
              title={lang === 'cn' ? "AI 赏析" : "AI Analysis"}
           >
             <Sparkles size={20} className={isAnalyzing ? 'animate-pulse' : ''} />
           </button>
         </div>
 
-        <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg border border-stone-200 flex flex-col gap-2">
-          <button onClick={() => handleZoom(scale + 0.5)} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomIn size={20}/></button>
-          <button onClick={() => handleZoom(scale - 0.5)} className="p-2 hover:bg-stone-100 rounded text-ink"><ZoomOut size={20}/></button>
-          <button onClick={resetView} className="p-2 hover:bg-stone-100 rounded text-ink text-xs font-serif">1:1</button>
+        <div className={`${isDark ? 'bg-gray-800/90 border-gray-700' : 'bg-white/90 border-stone-200'} backdrop-blur p-2 rounded-lg shadow-lg border flex flex-col gap-2`}>
+          <button onClick={() => handleZoom(scale + 0.5)} className={`p-2 ${isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink'} rounded`}><ZoomIn size={20}/></button>
+          <button onClick={() => handleZoom(scale - 0.5)} className={`p-2 ${isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink'} rounded`}><ZoomOut size={20}/></button>
+          <button onClick={resetView} className={`p-2 ${isDark ? 'hover:bg-gray-700 text-gray-100' : 'hover:bg-stone-100 text-ink'} rounded text-xs font-serif`}>1:1</button>
         </div>
       </div>
 
@@ -337,7 +338,7 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
 
             {/* AI Appraisal Buttons Row - Below Images */}
             {mode === 'view' && (
-              <div className="flex flex-row bg-paper/50 py-4">
+              <div className={`flex flex-row ${isDark ? 'bg-gray-800/50' : 'bg-paper/50'} py-4`}>
                 {artifact.images.map((_, index) => {
                   // Calculate button width to match image width
                   const imgElement = document.querySelector(`img[alt="${artifact.title[lang]} - Part ${index + 1}"]`) as HTMLImageElement;
@@ -382,7 +383,7 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
                 >
                   <button 
                     onClick={() => setActiveHotspot(activeHotspot === hs.id ? null : hs.id)}
-                    className="w-6 h-6 -ml-3 -mt-3 rounded-full bg-cinnabar/80 border border-paper shadow-lg flex items-center justify-center animate-pulse hover:animate-none hover:scale-110 transition-transform"
+                    className={`w-6 h-6 -ml-3 -mt-3 rounded-full bg-cinnabar/80 ${isDark ? 'border-gray-800' : 'border-paper'} border shadow-lg flex items-center justify-center animate-pulse hover:animate-none hover:scale-110 transition-transform`}
                     onTouchEnd={(e) => { e.stopPropagation(); setActiveHotspot(activeHotspot === hs.id ? null : hs.id); }}
                   >
                     <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -390,12 +391,12 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
                   
                   {/* Tooltip */}
                   <div 
-                    className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-64 bg-ink/90 backdrop-blur-sm text-paper p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 z-50 ${
+                    className={`absolute bottom-8 left-1/2 -translate-x-1/2 w-64 ${isDark ? 'bg-gray-800/90' : 'bg-ink/90'} backdrop-blur-sm ${isDark ? 'text-gray-100' : 'text-paper'} p-4 rounded-sm shadow-xl pointer-events-none transition-all duration-300 z-50 ${
                       activeHotspot === hs.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                     }`}
                   >
                     <h4 className="font-serif font-bold text-cinnabar mb-1">{hs.title[lang]}</h4>
-                    <p className="text-xs leading-relaxed font-song text-stone-200">{hs.content[lang]}</p>
+                    <p className={`text-xs leading-relaxed font-song ${isDark ? 'text-gray-300' : 'text-stone-200'}`}>{hs.content[lang]}</p>
                   </div>
                 </div>
               );

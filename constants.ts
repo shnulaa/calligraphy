@@ -5,7 +5,7 @@ export const ARTIFACTS: Artifact[] = [
   id: 'lantingxu',
   title: {
     en: 'Preface to the Poems Composed at the Orchid Pavilion (Shenlong Version)',
-    cn: '兰亭序（神龙本）'
+    cn: '兰亭序神龙本'
   },
   artist: {
     en: 'Wang Xizhi (Copied by Feng Chengsu)',
