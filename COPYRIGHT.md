@@ -8,79 +8,188 @@ The software code of this project is released under the MIT License. See [LICENS
 
 ## 书法作品图片 / Calligraphy Artwork Images
 
-### 重要声明 / Important Notice
+### 图片来源 / Image Source
 
-⚠️ **本项目中使用的书法作品图片仅供教育、学习和研究目的使用。**
+本项目中使用的书法作品图片来自：
 
-⚠️ **The calligraphy artwork images used in this project are for educational, learning, and research purposes only.**
+The calligraphy artwork images used in this project are from:
 
-### 版权归属 / Copyright Ownership
+**國立故宮博物院（台北故宫博物院）**  
+**National Palace Museum, Taipei**
 
-本项目中展示的书法作品可能受到以下版权保护：
+- 官方网站 / Official Website: https://www.npm.gov.tw/
+- 开放数据平台 / Open Data Platform: https://theme.npm.edu.tw/opendata/
 
-The calligraphy artworks displayed in this project may be protected by:
+### 版权声明 / Copyright Notice
 
-1. **原作版权** / Original Artwork Copyright
-   - 古代书法作品的原作可能已进入公有领域
-   - Ancient calligraphy artworks may be in the public domain
-   - 但高清数字化图片的版权可能属于博物馆或收藏机构
-   - However, high-resolution digitized images may be copyrighted by museums or collections
+⚠️ **重要：所有书法作品图片的著作权归國立故宮博物院所有。**
 
-2. **图片版权** / Image Copyright
-   - 书法作品的摄影或扫描图片可能受版权保护
-   - Photographs or scans of calligraphy artworks may be copyrighted
-   - 版权可能属于博物馆、美术馆或其他机构
-   - Copyright may belong to museums, galleries, or other institutions
+⚠️ **Important: All calligraphy artwork images are copyrighted by the National Palace Museum.**
 
-### 使用限制 / Usage Restrictions
+根据國立故宮博物院的使用规定：
 
-❌ **禁止用途** / Prohibited Uses:
-- 商业用途（销售、广告、营销等）
-- Commercial use (sales, advertising, marketing, etc.)
-- 未经授权的再分发
-- Unauthorized redistribution
-- 声称对作品拥有版权
-- Claiming copyright ownership of the artworks
+According to the National Palace Museum's usage policy:
 
-✅ **允许用途** / Permitted Uses:
-- 个人学习和研究
-- Personal learning and research
-- 教育目的（非商业）
-- Educational purposes (non-commercial)
-- 学术研究
-- Academic research
+### 使用条款 / Terms of Use
+
+#### ✅ 允许用途 / Permitted Uses
+
+1. **非商业性使用** / Non-commercial Use
+   - 个人学习和研究
+   - Personal learning and research
+   - 教育目的
+   - Educational purposes
+   - 学术研究
+   - Academic research
+
+2. **需要标注来源** / Attribution Required
+   - 必须标注"國立故宮博物院著作權所有"
+   - Must credit "Copyright © National Palace Museum"
+   - 提供作品名称、作者、朝代等信息
+   - Provide artwork name, artist, dynasty information
+
+#### ❌ 禁止用途 / Prohibited Uses
+
+1. **商业用途** / Commercial Use
+   - 未经授权不得用于商业目的
+   - Commercial use without authorization is prohibited
+   - 包括但不限于：销售、广告、营销
+   - Including but not limited to: sales, advertising, marketing
+
+2. **修改和再创作** / Modification and Derivative Works
+   - 不得对原作品进行实质性修改
+   - Substantial modification of original works is prohibited
+   - AI 分析和注释属于合理使用范围
+   - AI analysis and annotations fall within fair use
+
+3. **转授权** / Sublicensing
+   - 不得将图片转授权给第三方
+   - Sublicensing to third parties is prohibited
+
+### 本项目的使用声明 / This Project's Usage Statement
+
+本项目使用國立故宮博物院的书法作品图片用于：
+
+This project uses National Palace Museum's calligraphy artwork images for:
+
+1. **教育和文化推广** / Education and Cultural Promotion
+   - 通过数字化方式展示中国书法艺术
+   - Showcasing Chinese calligraphy art through digitalization
+   - 提供 AI 辅助的艺术鉴赏和学习工具
+   - Providing AI-assisted art appreciation and learning tools
+
+2. **非商业性质** / Non-commercial Nature
+   - 本项目完全免费开源
+   - This project is completely free and open source
+   - 不涉及任何商业盈利行为
+   - No commercial profit is involved
+
+3. **合理使用** / Fair Use
+   - 符合教育和研究的合理使用原则
+   - Complies with fair use principles for education and research
+   - 不影响原作品的正常使用和价值
+   - Does not affect normal use and value of original works
+
+### 作品信息 / Artwork Information
+
+本项目展示的书法作品包括（但不限于）：
+
+The calligraphy artworks displayed in this project include (but are not limited to):
+
+1. **《寒食帖》** / "Cold Food Observance"
+   - 作者 / Artist: 苏轼 (Su Shi)
+   - 朝代 / Dynasty: 北宋 (Northern Song)
+   - 来源 / Source: 國立故宮博物院藏
+
+2. **《祭侄文稿》** / "Requiem for My Nephew"
+   - 作者 / Artist: 颜真卿 (Yan Zhenqing)
+   - 朝代 / Dynasty: 唐 (Tang)
+   - 来源 / Source: 國立故宮博物院藏
+
+3. **《快雪时晴帖》** / "Timely Clearing After Snowfall"
+   - 作者 / Artist: 王羲之 (Wang Xizhi)
+   - 朝代 / Dynasty: 东晋 (Eastern Jin)
+   - 来源 / Source: 國立故宮博物院藏
+
+**所有作品图片著作权归國立故宮博物院所有。**  
+**Copyright © National Palace Museum. All rights reserved.**
 
 ### 版权侵权处理 / Copyright Infringement
 
-如果您是书法作品或图片的版权所有者，并认为本项目侵犯了您的权利：
+本项目尊重國立故宮博物院的著作权。如果故宫博物院或其他版权所有者认为本项目的使用不当：
 
-If you are the copyright owner of any calligraphy artwork or image and believe this project infringes your rights:
+This project respects the copyright of the National Palace Museum. If the Museum or other copyright owners believe the use is inappropriate:
 
 1. 请通过 GitHub Issues 联系我们
    Please contact us through GitHub Issues
-2. 提供版权证明和侵权内容的详细信息
-   Provide proof of copyright and details of the infringing content
-3. 我们将在 48 小时内删除相关内容
-   We will remove the content within 48 hours
+2. 提供详细的侵权说明
+   Provide detailed infringement description
+3. 我们将在 24 小时内回应并采取适当措施
+   We will respond within 24 hours and take appropriate action
+
+### 商业使用授权 / Commercial Use Authorization
+
+如需将本项目或其中的书法作品图片用于商业目的：
+
+For commercial use of this project or the calligraphy artwork images:
+
+1. **必须联系國立故宮博物院获取授权**
+   **Must contact National Palace Museum for authorization**
+   
+   - 联系方式 / Contact: https://www.npm.gov.tw/
+   - 授权申请 / Authorization Application: 请查阅故宫官网相关规定
+   
+2. **遵守故宫博物院的授权条款**
+   **Comply with the Museum's authorization terms**
 
 ### 免责声明 / Disclaimer
 
-本项目的维护者已尽力确保遵守版权法律，但不对任何版权问题承担责任。使用者应自行承担使用本项目内容的法律风险。
+1. 本项目维护者已尽力遵守國立故宮博物院的使用规定
+   The project maintainers have made efforts to comply with the National Palace Museum's usage policy
 
-The maintainers of this project have made efforts to comply with copyright laws but assume no responsibility for any copyright issues. Users assume all legal risks associated with using the content of this project.
+2. 本项目仅用于教育和文化推广的非商业目的
+   This project is for non-commercial educational and cultural promotion purposes only
+
+3. 使用者应自行承担使用本项目内容的法律风险
+   Users assume all legal risks associated with using the content of this project
+
+4. 如有任何版权疑问，请优先联系國立故宮博物院
+   For any copyright questions, please contact the National Palace Museum first
 
 ### 建议 / Recommendations
 
-如果您计划将本项目用于任何公开或商业目的，我们强烈建议：
+**对于个人使用者：**
 
-If you plan to use this project for any public or commercial purposes, we strongly recommend:
+For Personal Users:
 
-1. 替换所有书法作品图片为您拥有版权或已获得授权的图片
-   Replace all calligraphy artwork images with images you own or have permission to use
-2. 咨询法律专业人士
+1. 本项目可用于个人学习和研究
+   This project can be used for personal learning and research
+2. 请勿用于任何商业目的
+   Do not use for any commercial purposes
+3. 分享时请注明图片来源为國立故宮博物院
+   When sharing, credit the National Palace Museum as the image source
+
+**对于机构或商业用户：**
+
+For Institutional or Commercial Users:
+
+1. 必须联系國立故宮博物院获取正式授权
+   Must contact the National Palace Museum for formal authorization
+2. 遵守故宫博物院的授权条款和费用规定
+   Comply with the Museum's authorization terms and fee requirements
+3. 咨询法律专业人士
    Consult with legal professionals
-3. 获得所有必要的版权许可
-   Obtain all necessary copyright permissions
+
+**对于开发者：**
+
+For Developers:
+
+1. Fork 本项目前请确保理解版权限制
+   Understand copyright restrictions before forking this project
+2. 如需使用自己的图片，请替换 assets 目录中的所有书法作品图片
+   To use your own images, replace all calligraphy artwork images in the assets directory
+3. 更新 COPYRIGHT.md 中的版权信息
+   Update copyright information in COPYRIGHT.md
 
 ## 第三方资源 / Third-Party Resources
 

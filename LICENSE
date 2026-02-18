@@ -24,26 +24,48 @@ SOFTWARE.
 
 ## 书法作品版权声明 / Calligraphy Artwork Copyright Notice
 
-本项目中使用的书法作品图片仅供学习和研究使用。
+### 图片来源 / Image Source
 
-The calligraphy artwork images used in this project are for educational and 
-research purposes only.
+本项目中使用的书法作品图片来自：
+The calligraphy artwork images used in this project are from:
 
-### 版权状态 / Copyright Status
+**國立故宮博物院（台北故宫博物院）**
+**National Palace Museum, Taipei**
 
-- 如果您是作品的版权所有者并认为您的权利受到侵犯，请联系我们，我们将立即删除相关内容。
-- If you are the copyright owner of any artwork and believe your rights have 
-  been infringed, please contact us and we will remove the content immediately.
+官方网站 / Official Website: https://www.npm.gov.tw/
+
+### 版权归属 / Copyright Ownership
+
+**所有书法作品图片的著作权归國立故宮博物院所有。**
+**Copyright © National Palace Museum. All rights reserved.**
 
 ### 使用限制 / Usage Restrictions
 
-- 本项目中的书法作品图片不得用于商业用途
-- The calligraphy artwork images in this project may not be used for 
-  commercial purposes
-- 使用者应遵守相关版权法律法规
-- Users should comply with relevant copyright laws and regulations
+1. **仅供非商业使用** / Non-commercial Use Only
+   - 本项目中的书法作品图片仅供教育、学习和研究使用
+   - The calligraphy artwork images are for educational, learning, and research purposes only
 
-### 联系方式 / Contact
+2. **禁止商业用途** / Commercial Use Prohibited
+   - 未经國立故宮博物院授权，不得用于任何商业目的
+   - Commercial use without authorization from the National Palace Museum is prohibited
 
-如有版权问题，请通过 GitHub Issues 联系我们。
-For copyright issues, please contact us through GitHub Issues.
+3. **必须标注来源** / Attribution Required
+   - 使用时必须标注"國立故宮博物院著作權所有"
+   - Must credit "Copyright © National Palace Museum" when using
+
+### 商业授权 / Commercial Authorization
+
+如需将书法作品图片用于商业目的，请联系：
+For commercial use of the calligraphy artwork images, please contact:
+
+國立故宮博物院 / National Palace Museum
+https://www.npm.gov.tw/
+
+### 免责声明 / Disclaimer
+
+本项目维护者尊重國立故宮博物院的著作权，已尽力遵守相关使用规定。
+如有任何版权疑问或问题，请通过 GitHub Issues 联系我们。
+
+The project maintainers respect the copyright of the National Palace Museum 
+and have made efforts to comply with relevant usage policies. For any 
+copyright questions or issues, please contact us through GitHub Issues.

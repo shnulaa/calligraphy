@@ -290,15 +290,19 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) file for 
 
 ### ⚠️ 重要版权声明
 
-**书法作品图片仅供教育、学习和研究目的使用，不得用于商业用途。**
+**书法作品图片来自國立故宮博物院（台北故宫博物院），著作权归故宫博物院所有。**
 
-本项目中展示的书法作品可能受版权保护。如果您是版权所有者并认为您的权利受到侵犯，请通过 GitHub Issues 联系我们，我们将立即删除相关内容。
+**本项目仅供教育、学习和研究目的使用，不得用于商业用途。**
+
+The calligraphy artwork images are from the National Palace Museum, Taipei. Copyright © National Palace Museum.
+
+This project is for educational, learning, and research purposes only. Commercial use is prohibited.
+
+如需商业使用，请联系國立故宮博物院获取授权：https://www.npm.gov.tw/
+
+For commercial use, please contact the National Palace Museum for authorization: https://www.npm.gov.tw/
 
 详细版权信息请查看 [COPYRIGHT.md](COPYRIGHT.md)。
-
-**The calligraphy artwork images are for educational, learning, and research purposes only. Commercial use is prohibited.**
-
-The calligraphy artworks displayed in this project may be copyrighted. If you are the copyright owner and believe your rights have been infringed, please contact us through GitHub Issues and we will remove the content immediately.
 
 For detailed copyright information, see [COPYRIGHT.md](COPYRIGHT.md).
 
