@@ -1,0 +1,28 @@
+# 生产环境 Dockerfile
+FROM node:20-alpine
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制依赖文件
+COPY package*.json ./
+
+# 安装所有依赖
+RUN npm ci
+
+# 复制源代码和资源文件
+COPY . .
+
+# 构建前端
+RUN npm run build
+
+# assets 会被 Vite 自动复制到 dist（通过 publicDir 配置）
+
+# 暴露端口
+EXPOSE 3000 3001
+
+# 设置环境变量
+ENV NODE_ENV=production
+
+# 启动应用（后端 + 前端预览服务器）
+CMD ["node", "start-prod.js"]

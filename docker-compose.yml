@@ -1,0 +1,39 @@
+services:
+  # 应用服务
+  calligraphy-museum:
+    build: .
+    container_name: calligraphy-museum
+    # 不对外暴露端口，只在Docker内部网络访问
+    expose:
+      - "33000"  # 前端端口（内部）
+      - "33001"  # 后端端口（内部）
+    environment:
+      - NODE_ENV=production
+      - API_KEY=${API_KEY}
+      - API_URL=${API_URL}
+      - MODEL=${MODEL}
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./assets:/app/assets:ro  # 只读挂载资源文件
+    networks:
+      - calligraphy-network
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: calligraphy-nginx
+    ports:
+      - "48888:80"  # 对外暴露48888端口，内部使用80
+    volumes:
+      - ./nginx-docker.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - calligraphy-museum
+    restart: unless-stopped
+    networks:
+      - calligraphy-network
+
+networks:
+  calligraphy-network:
+    driver: bridge

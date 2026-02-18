@@ -1,0 +1,38 @@
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, '.', '');
+    const frontendPort = parseInt(env.VITE_FRONTEND_PORT || '33000');
+    
+    return {
+      base: '/',
+      publicDir: 'assets',  // 将 assets 目录作为公共资源
+      preview: {
+        port: frontendPort,
+        host: '0.0.0.0',
+        strictPort: true,
+        proxy: {
+          // 禁用 host 检查的另一种方式
+        }
+      },
+      server: {
+        port: frontendPort,
+        host: '0.0.0.0',
+        proxy: {
+          // 禁用 host 检查
+        }
+      },
+      plugins: [react()],
+      define: {
+        'process.env.VITE_BACKEND_HOST': JSON.stringify(env.VITE_BACKEND_HOST),
+        'process.env.VITE_BACKEND_PORT': JSON.stringify(env.VITE_BACKEND_PORT),
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
+});

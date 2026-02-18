@@ -1,0 +1,85 @@
+/* Google Fonts 本地化替代方案 */
+
+/* Ma Shan Zheng - 中文书法字体 */
+@font-face {
+  font-family: 'Ma Shan Zheng';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Ma Shan Zheng'), local('MaShanZheng-Regular'),
+       local('STKaiti'), local('KaiTi'), local('楷体');
+}
+
+/* Noto Serif SC - 中文衬线字体 */
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: local('Noto Serif SC Light'), local('NotoSerifSC-Light'),
+       local('STSong'), local('SimSun'), local('宋体');
+}
+
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local('Noto Serif SC Light'), local('NotoSerifSC-Light'),
+       local('STSong'), local('SimSun'), local('宋体');
+}
+
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Noto Serif SC'), local('NotoSerifSC-Regular'),
+       local('STSong'), local('SimSun'), local('宋体');
+}
+
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Noto Serif SC Bold'), local('NotoSerifSC-Bold'),
+       local('STSong'), local('SimSun'), local('宋体');
+}
+
+/* Playfair Display - 英文衬线字体 */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Playfair Display'), local('PlayfairDisplay-Regular'),
+       local('Georgia'), local('Times New Roman'), local('serif');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Playfair Display Italic'), local('PlayfairDisplay-Italic'),
+       local('Georgia Italic'), local('Times New Roman Italic'), local('serif');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Playfair Display Bold'), local('PlayfairDisplay-Bold'),
+       local('Georgia Bold'), local('Times New Roman Bold'), local('serif');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Playfair Display Bold Italic'), local('PlayfairDisplay-BoldItalic'),
+       local('Georgia Bold Italic'), local('Times New Roman Bold Italic'), local('serif');
+}
