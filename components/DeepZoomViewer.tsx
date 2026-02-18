@@ -280,15 +280,6 @@ export const DeepZoomViewer: React.FC<DeepZoomViewerProps> = ({ artifact, lang, 
           >
             <Maximize size={20} />
           </button>
-          <div className={`h-px ${isDark ? 'bg-gray-700' : 'bg-stone-200'} my-1`}></div>
-          <button 
-             onClick={handleAiAnalysis}
-             disabled={isAnalyzing}
-             className={`p-2 rounded transition-colors ${isAnalyzing ? (isDark ? 'bg-gray-700 text-gray-500' : 'bg-stone-100 text-stone-400') : 'hover:bg-cinnabar hover:text-paper text-cinnabar'}`}
-             title={lang === 'cn' ? "AI 赏析" : "AI Analysis"}
-          >
-            <Sparkles size={20} className={isAnalyzing ? 'animate-pulse' : ''} />
-          </button>
         </div>
 
         <div className={`${isDark ? 'bg-gray-800/90 border-gray-700' : 'bg-white/90 border-stone-200'} backdrop-blur p-2 rounded-lg shadow-lg border flex flex-col gap-2`}>
