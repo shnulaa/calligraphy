@@ -195,33 +195,48 @@ app.post('/api/analyze-calligraphy', async (req, res) => {
 
     // 调用 Gemini API
     const apiEndpoint = `${API_URL}/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
-    const response = await fetch(apiEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: systemPrompt + '\n\n' + userPrompt
-              },
-              {
-                inline_data: {
-                  mime_type: 'image/jpeg',
-                  data: compressedImage
+    
+    let response;
+    try {
+      response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: systemPrompt + '\n\n' + userPrompt
+                },
+                {
+                  inline_data: {
+                    mime_type: 'image/jpeg',
+                    data: compressedImage
+                  }
                 }
-              }
-            ]
+              ]
+            }
+          ],
+          generationConfig: {
+            maxOutputTokens: 16000,
+            temperature: 0.7
           }
-        ],
-        generationConfig: {
-          maxOutputTokens: 16000,
-          temperature: 0.7
-        }
-      })
-    });
+        }),
+        // 添加超时设置
+        signal: AbortSignal.timeout(60000) // 60秒超时
+      });
+    } catch (fetchError) {
+      console.error('❌ [AI鉴宝] 网络请求失败:', fetchError.message);
+      
+      // 如果是网络错误，标记这个 key 为失败
+      if (fetchError.name === 'AbortError' || fetchError.code === 'ECONNRESET' || fetchError.message.includes('network')) {
+        markKeyAsFailed(keyIndex);
+      }
+      
+      throw new Error(`Network error: ${fetchError.message}`);
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -247,11 +262,20 @@ app.post('/api/analyze-calligraphy', async (req, res) => {
   } catch (error) {
     const elapsedTime = Date.now() - startTime;
     console.error(`❌ [AI鉴宝] 处理失败 (耗时: ${elapsedTime}ms):`, error.message);
-    res.status(500).json({ 
-      error: lang === 'cn' 
+    
+    // 根据错误类型返回不同的提示
+    let errorMessage;
+    if (error.message.includes('Network error') || error.message.includes('ECONNRESET')) {
+      errorMessage = lang === 'cn'
+        ? '网络连接失败，请检查网络设置或稍后再试。'
+        : 'Network connection failed. Please check your network settings or try again later.';
+    } else {
+      errorMessage = lang === 'cn' 
         ? '笔墨精灵今日静默，请稍后再试。' 
-        : 'The spirits of the ink are quiet today. Please try again later.'
-    });
+        : 'The spirits of the ink are quiet today. Please try again later.';
+    }
+    
+    res.status(500).json({ error: errorMessage });
   }
 });
 
@@ -316,27 +340,42 @@ app.post('/api/curator-chat', async (req, res) => {
 
     // 调用 Gemini API
     const apiEndpoint = `${API_URL}/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
-    const response = await fetch(apiEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: systemPrompt + '\n\n' + query
-              }
-            ]
+    
+    let response;
+    try {
+      response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: systemPrompt + '\n\n' + query
+                }
+              ]
+            }
+          ],
+          generationConfig: {
+            maxOutputTokens: 3000,
+            temperature: 0.8
           }
-        ],
-        generationConfig: {
-          maxOutputTokens: 3000,
-          temperature: 0.8
-        }
-      })
-    });
+        }),
+        // 添加超时设置
+        signal: AbortSignal.timeout(30000) // 30秒超时
+      });
+    } catch (fetchError) {
+      console.error('❌ [策展人] 网络请求失败:', fetchError.message);
+      
+      // 如果是网络错误，标记这个 key 为失败
+      if (fetchError.name === 'AbortError' || fetchError.code === 'ECONNRESET' || fetchError.message.includes('network')) {
+        markKeyAsFailed(keyIndex);
+      }
+      
+      throw new Error(`Network error: ${fetchError.message}`);
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -362,11 +401,20 @@ app.post('/api/curator-chat', async (req, res) => {
   } catch (error) {
     const elapsedTime = Date.now() - startTime;
     console.error(`❌ [策展人] 处理失败 (耗时: ${elapsedTime}ms):`, error.message);
-    res.status(500).json({ 
-      error: lang === 'cn'
+    
+    // 根据错误类型返回不同的提示
+    let errorMessage;
+    if (error.message.includes('Network error') || error.message.includes('ECONNRESET')) {
+      errorMessage = lang === 'cn'
+        ? '网络连接失败，请检查网络设置或稍后再试。'
+        : 'Network connection failed. Please check your network settings or try again later.';
+    } else {
+      errorMessage = lang === 'cn'
         ? '笔墨精灵今日静默，请稍后再试。'
-        : 'The spirits of the ink are quiet today. Please try again later.'
-    });
+        : 'The spirits of the ink are quiet today. Please try again later.';
+    }
+    
+    res.status(500).json({ error: errorMessage });
   }
 });
 
