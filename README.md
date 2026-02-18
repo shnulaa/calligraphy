@@ -1,8 +1,41 @@
+
 # 墨雪：数字书法博物馆 / Ink & Snow: Digital Calligraphy Museum
 
 一个沉浸式的中国书法数字博物馆，结合 AI 技术提供智能鉴赏和策展人对话功能。
 
 An immersive digital museum for Chinese calligraphy, featuring AI-powered appraisal and curator chat capabilities.
+
+## 📸 项目截图 / Screenshots
+
+<div align="center">
+  <img src="assets/screenshots/11.jpg" alt="书法作品浏览" width="800"/>
+  <p><em>深度缩放浏览 - 高清书法作品无损缩放</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/22.jpg" alt="AI鉴宝功能" width="800"/>
+  <p><em>AI 鉴宝 - 智能识别和分析书法内容</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/33.jpg" alt="策展人对话" width="800"/>
+  <p><em>AI 策展人 - 深入了解作品背景和艺术特色</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/44.jpg" alt="临摹模式" width="800"/>
+  <p><em>临摹模式 - 在书法作品上进行数字临摹</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/55.jpg" alt="微观赏析" width="800"/>
+  <p><em>微观赏析 - 放大观察笔墨纹理细节</em></p>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/66.jpg" alt="双语支持" width="800"/>
+  <p><em>双语界面 - 中文/英文自由切换</em></p>
+</div>
 
 ## ✨ 主要功能 / Features
 
@@ -48,6 +81,12 @@ An immersive digital museum for Chinese calligraphy, featuring AI-powered apprai
    API_KEY=your_api_key_1,your_api_key_2,your_api_key_3
    API_URL=https://generativelanguage.googleapis.com
    MODEL=gemini-2.0-flash-exp
+   
+   # ⚠️ 重要：模型必须支持视觉功能（Vision）
+   # 推荐使用支持视觉的模型：
+   # - gemini-2.0-flash-exp (推荐)
+   # - gemini-1.5-flash
+   # - gemini-1.5-pro
    ```
 
 4. **启动服务 / Start the application**
@@ -75,9 +114,27 @@ API_KEY=key1,key2,key3,key4
 - ✅ 失败的 Key 在 5 分钟后自动恢复重试
 - ✅ 所有 Key 失败时显示友好提示
 
+### 模型要求
+
+⚠️ **重要：AI 鉴宝功能需要使用支持视觉（Vision）的模型**
+
+**推荐模型：**
+- `gemini-2.0-flash-exp` ✅ (推荐，最新)
+- `gemini-1.5-flash` ✅
+- `gemini-1.5-pro` ✅
+
+**不支持的模型：**
+- `gemini-1.0-pro` ❌ (不支持视觉)
+- 其他纯文本模型 ❌
+
 ### 获取 API Key
 
 访问 [Google AI Studio](https://aistudio.google.com/app/apikey) 获取免费的 Gemini API Key。
+
+**注意事项：**
+1. 确保选择支持视觉功能的模型
+2. 免费配额可能有限制，建议配置多个 Key
+3. 定期检查 API 使用情况
 
 ## 📦 Docker 部署 / Docker Deployment
 
@@ -209,10 +266,19 @@ npm run preview
 - 确保 `.env` 文件中的 API_KEY 配置正确
 - 检查 API Key 是否有效且未过期
 - 确认 API_URL 配置正确
+- ⚠️ **确保使用支持视觉功能的模型**（如 gemini-2.0-flash-exp）
 
 ### 图片加载失败
 - 检查 `assets/` 目录中的图片文件是否存在
 - 确认 `metadata.json` 中的图片路径正确
+
+### 网络连接错误
+- 如果遇到 "Client network socket disconnected" 错误：
+  1. 检查网络代理设置
+  2. 确保防火墙允许访问 generativelanguage.googleapis.com
+  3. 在中国大陆可能需要配置代理或使用 VPN
+  4. 检查系统时间是否正确
+  5. 尝试重启网络或更换网络环境
 
 ### 端口冲突
 - 前端默认端口：33000
