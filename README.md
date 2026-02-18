@@ -84,13 +84,11 @@ An immersive digital museum for Chinese calligraphy, featuring AI-powered apprai
    # 例如: API_KEY=key1,key2,key3
    API_KEY=your_api_key_1,your_api_key_2,your_api_key_3
    API_URL=https://generativelanguage.googleapis.com
-   MODEL=gemini-2.0-flash-exp
+   MODEL=gemini-2.5-flash
    
    # ⚠️ 重要：模型必须支持视觉功能（Vision）
    # 推荐使用支持视觉的模型：
-   # - gemini-2.0-flash-exp (推荐)
-   # - gemini-1.5-flash
-   # - gemini-1.5-pro
+   # - gemini-2.5-flash (推荐)
    ```
 
 4. **启动服务 / Start the application**
@@ -123,13 +121,7 @@ API_KEY=key1,key2,key3,key4
 ⚠️ **重要：AI 鉴宝功能需要使用支持视觉（Vision）的模型**
 
 **推荐模型：**
-- `gemini-2.0-flash-exp` ✅ (推荐，最新)
-- `gemini-1.5-flash` ✅
-- `gemini-1.5-pro` ✅
-
-**不支持的模型：**
-- `gemini-1.0-pro` ❌ (不支持视觉)
-- 其他纯文本模型 ❌
+- `gemini-2.0-flash` ✅ (推荐，最新)
 
 ### 获取 API Key
 
