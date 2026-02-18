@@ -18,6 +18,10 @@ An immersive digital museum for Chinese calligraphy, featuring AI-powered apprai
 
 ## 📸 项目截图 / Screenshots
 <div align="center">
+  <img src="assets/screenshots/index.jpg" alt="书法作品浏览" width="800"/>
+  <p><em>AI 鉴宝 - 智能识别和分析书法内容</em></p>
+</div>
+<div align="center">
   <img src="assets/screenshots/1.jpg" alt="书法作品浏览" width="800"/>
   <p><em>AI 鉴宝 - 智能识别和分析书法内容</em></p>
 </div>
