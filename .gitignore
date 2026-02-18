@@ -18,7 +18,6 @@ dist-ssr
 !.env.example
 
 # Docker
-*.dockerignore
 docker-compose.override.yml
 
 # Editor directories and files
