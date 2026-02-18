@@ -8,6 +8,18 @@ echo "🎨 墨雪：数字书法博物馆 / Ink & Snow: Digital Calligraphy Muse
 echo "======================================================================"
 echo ""
 
+# 检查是否是 Git 仓库
+if [ -d .git ]; then
+    echo "📥 拉取最新代码..."
+    git pull origin main
+    if [ $? -ne 0 ]; then
+        echo "⚠️  代码拉取失败，继续使用本地代码"
+    else
+        echo "✅ 代码已更新到最新版本"
+    fi
+    echo ""
+fi
+
 # 检查 .env 文件是否存在
 if [ ! -f .env ]; then
     echo "❌ 错误: .env 文件不存在"

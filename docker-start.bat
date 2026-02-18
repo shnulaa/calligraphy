@@ -8,6 +8,18 @@ echo 🎨 墨雪：数字书法博物馆 / Ink ^& Snow: Digital Calligraphy Muse
 echo ======================================================================
 echo.
 
+REM 检查是否是 Git 仓库
+if exist .git (
+    echo 📥 拉取最新代码...
+    git pull origin main
+    if errorlevel 1 (
+        echo ⚠️  代码拉取失败，继续使用本地代码
+    ) else (
+        echo ✅ 代码已更新到最新版本
+    )
+    echo.
+)
+
 REM 检查 .env 文件是否存在
 if not exist .env (
     echo ❌ 错误: .env 文件不存在
